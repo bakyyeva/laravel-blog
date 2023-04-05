@@ -35,6 +35,11 @@ class ArticleComment extends Model
         return $this->hasMany(ArticleComment::class, 'parent_id', 'id');
     }
 
+    public function commentLikes(): HasMany
+    {
+        return $this->hasMany(UserLikeComment::class, 'comment_id', 'id');
+    }
+
     public function scopeApproveStatus($query)
     {
         return $query->where('status', 0);

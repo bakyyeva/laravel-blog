@@ -15,7 +15,7 @@ return [
     |--------------------------------------------------------------------------
      */
 
-    'use_package_routes'       => true,          //false yapıp kendi tanımladığım route kullanabilirim
+    'use_package_routes'       => false,          //false yapıp kendi tanımladığım route kullanabilirim
 
     /*
     |--------------------------------------------------------------------------

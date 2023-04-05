@@ -14,14 +14,14 @@
                     <div class="article-header-date">
                         @php
                             $publishDate = \Carbon\Carbon::parse($article->publish_date)->format("d-m-Y");
-                            for($i=1; $i<=count($article->getAttribute("tags")); $i++)
+                            for($i=1; $i<=count($article->getAttribute("tagsToArray")); $i++)
                                 {
                                     $class = ["text-danger", "text-success", "text-warning", "text-secondary", "text-primary"];
                                     $randomClass = $class[random_int(0,4)];
                                 }
                         @endphp
                         <time datetime="{{ $publishDate }}">{{ $publishDate }}</time>
-                        @foreach($article->getAttribute("tags") as $tag)
+                        @foreach($article->getAttribute("tagsToArray") as $tag)
                             <span class="{{ $randomClass }}">{{ $tag }}</span>
                         @endforeach
                     </div>
@@ -50,10 +50,17 @@
         <section class="col-12 mt-4">
             <div class="article-items d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
-                    <a href="javascript:void(0)" class="favorite-article me-1">
+                    <a href="javascript:void(0)"
+                       class="favorite-article me-1"
+                       id="favoriteArticle"
+                       data-id="{{ $article->id }}"
+                        @if(!is_null($userLike))
+                           style="color:red"
+                        @endif
+                    >
                         <span class="material-icons-outlined">favorite</span>
                     </a>
-                    <span class="fw-light">100</span>
+                    <span class="fw-light" id="favoriteCount">{{ $article->like_count }}</span>
                 </div>
                 <a href="javascript:void(0)" class="btn-response btnArticleResponse">Cevap Ver</a>
 
@@ -137,11 +144,26 @@
                                     <p class="text-secondary">{{ $comment->comments }}</p>
                                     <div class="text-end d-flex  align-items-center justify-content-between">
                                         <div>
-                                            <a href="javascript:void(0)" class="btn-response btnArticleResponseComment" data-id="{{ $comment->id }}">Cevap Ver</a>
+                                            <a href="javascript:void(0)"
+                                               class="btn-response btnArticleResponseComment"
+                                               data-id="{{ $comment->id }}">
+                                                Cevap Ver
+                                            </a>
                                         </div>
                                         <div class="d-flex  align-items-center">
-                                            <a href="javascript:void(0)" class="like-comment"><span class="material-icons">thumb_up</span></a>
-                                            <a href="javascript:void(0)" class="like-comment"><span class="material-icons-outlined">thumb_up_off_alt</span></a> 12
+                                            @php
+                                                $commentLike = $comment->commentLikes->where('user_id', auth()->id())->where('comment_id', $comment->id)->first();
+                                            @endphp
+                                            <a href="javascript:void(0)"
+                                               class="like-comment"
+                                               data-id="{{ $comment->id }}"
+                                               @if(!is_null($commentLike))
+                                                   style="color: orange";
+                                                @endif
+                                            >
+                                                <span class="material-icons">thumb_up</span>
+                                            </a>
+                                             <span id="commentLikeCount-{{ $comment->id }}">{{ $comment->like_count }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -155,8 +177,8 @@
                                             @php
                                                 if ($child->user)
                                                 {
-                                                    $childImage = $comment->user->image;
-                                                    $childName = $comment->user->name;
+                                                    $childImage = $child->user->image;
+                                                    $childName = $child->user->name;
 
                                                     if(!file_exists(public_path($childImage)))
                                                         {
@@ -166,7 +188,7 @@
                                                 else
                                                 {
                                                     $childImage = $settings->default_comment_profile_image;
-                                                    $childName = $comment->name;
+                                                    $childName = $child->name;
                                                 }
                                             @endphp
                                             <img src="{{ asset($childImage) }}" alt="" width="75" height="75">
@@ -183,8 +205,19 @@
                                                         <a href="javascript:void(0)" class="btn-response btnArticleResponseComment" data-id="{{ $child->id }}">Cevap Ver</a>
                                                     </div>
                                                     <div class="d-flex  align-items-center">
-                                                        <a href="javascript:void(0)" class="like-comment"><span class="material-icons">thumb_up</span></a>
-                                                        <a href="javascript:void(0)" class="like-comment"><span class="material-icons-outlined">thumb_up_off_alt</span></a> 12
+                                                        @php
+                                                            $commentLikeChild = $child->commentLikes->where('user_id', auth()->id())->where('comment_id', $child->id)->first();
+                                                        @endphp
+                                                        <a href="javascript:void(0)"
+                                                           class="like-comment"
+                                                           data-id="{{ $child->id }}"
+                                                           @if(!is_null($commentLikeChild))
+                                                               style="color: orange";
+                                                            @endif
+                                                        >
+                                                            <span class="material-icons">thumb_up</span>
+                                                        </a>
+                                                        <span id="commentLikeCount-{{ $child->id }}">{{ $child->like_count }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -203,4 +236,92 @@
 @endsection
 
 @section('js')
+    <script>
+        $(document).ready(function () {
+
+            $('#favoriteArticle').click(function () {
+
+                @if(Auth::check())
+                    let articleID = $(this).data('id');
+                    let self = $(this);
+                    $.ajax({
+                        method: "POST",
+                        url: "{{ route('article.favorite') }}",
+                        data: {
+                            id : articleID
+                        },
+                        async:false,
+                        success: function (data) {
+                            if(data.process)
+                            {
+                                self.css("color", "red")
+                            }
+                            else
+                            {
+                                self.css("color", "inherit")
+                            }
+                            $('#favoriteCount').text(data.like_count)
+                        },
+                        error: function (){
+                            console.log("hata geldi");
+                        }
+                    })
+                @else
+                    Swal.fire({
+                        title: "Bilgi",
+                        text: "Kullanıcı girişi yapmadan favorilerinize alamazsınız.",
+                        confirmButtonText: 'Tamam',
+                        icon: "info"
+                    });
+                @endif
+
+
+            });
+
+            $('.like-comment').click(function () {
+
+                @if(Auth::check())
+                    let commentID = $(this).data('id');
+                    let self = $(this);
+
+                    $.ajax({
+                        method: "POST",
+                        url: "{{ route('article.comment.favorite') }}",
+                        data: {
+                            id : commentID
+                        },
+                        async:false,
+                        success: function (data) {
+                            if(data.process)
+                            {
+                                self.css("color", "red")
+                            }
+                            else
+                            {
+                                self.css("color", "inherit")
+                            }
+                            $('#commentLikeCount-' + commentID).text(data.like_count)
+                        },
+                        error: function (){
+                            console.log("hata geldi");
+                        }
+                    })
+                @else
+                    Swal.fire({
+                        title: "Bilgi",
+                        text: "Kullanıcı girişi yapmadan yorumu beğenemezsınız.",
+                        confirmButtonText: 'Tamam',
+                        icon: "info"
+                    });
+                @endif
+
+
+            });
+
+
+
+
+
+        });
+    </script>
 @endsection

@@ -27,6 +27,10 @@ Route::prefix('admin')->middleware("auth")->group(function (){
         return view('admin.index');
     })->name('admin.home');
 
+    Route::group(['prefix' => 'filemanager'], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
+
     Route::get('articles', [ArticleController::class, 'index'])->name('article.index');
     Route::get('articles/create', [ArticleController::class, 'create'])->name('article.create');
     Route::post('articles/create', [ArticleController::class, 'store']);
@@ -34,12 +38,14 @@ Route::prefix('admin')->middleware("auth")->group(function (){
     Route::post('articles/delete', [ArticleController::class, 'delete'])->name('article.delete');
     Route::get('articles/{id}/edit', [ArticleController::class, 'edit'])->name('article.edit')->whereNumber('id');
     Route::post('articles/{id}/edit', [ArticleController::class, 'update'])->whereNumber('id');
+    Route::post('articles/favorite', [ArticleController::class, 'favorite'])->name('article.favorite');
 
     Route::get('article/pending-approval', [ArticleCommentController::class, 'approvalList'])->name('article.pending-approval');
     Route::get('article/comment-list', [ArticleCommentController::class, 'list'])->name('article.comment.list');
     Route::post('article/pending-approval/change-status', [ArticleCommentController::class, 'changeStatus'])->name('article.pending-approval.change-status');
     Route::delete('article/pending-approval/delete', [ArticleCommentController::class, 'delete'])->name('article.pending-approval.delete');
     Route::post('article/comment-restore', [ArticleCommentController::class, 'restore'])->name('article.comment.restore');
+    Route::post('article/comment-favorite', [ArticleCommentController::class, 'favorite'])->name('article.comment.favorite');
 
 
     Route::get('categories', [CategoryController::class, 'index'])->name('category.index');
@@ -50,6 +56,16 @@ Route::prefix('admin')->middleware("auth")->group(function (){
     Route::post('categories/delete', [CategoryController::class, 'delete'])->name('category.delete');
     Route::get('categories/{id}/edit', [CategoryController::class, 'edit'])->name('category.edit')->whereNumber('id');
     Route::post('categories/{id}/edit', [CategoryController::class, 'update'])->whereNumber('id');
+
+    Route::get('users', [UserController::class, 'index'])->name('user.index');
+    Route::get('users/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('users/create', [UserController::class, 'store']);
+    Route::get('users/{user:username}/edit', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('users/{user:username}/edit', [UserController::class, 'update']);
+    Route::post('users/change-status', [UserController::class, 'changeStatus'])->name('user.change-status');
+    Route::post('users/change-remember-token', [UserController::class, 'changeRememberToken'])->name('user.change-remember-token');
+    Route::post('users/delete', [UserController::class, 'delete'])->name('user.delete');
+    Route::post('users/restore', [UserController::class, 'restore'])->name('user.restore');
 
 
 
@@ -84,33 +100,27 @@ Route::prefix('admin')->middleware("auth")->group(function (){
     Route::post('social-medias/change-status', [SocialMediaController::class, 'changeStatus'])->name('social-media.change-status');
     Route::delete('social-medias/delete', [SocialMediaController::class, 'delete'])->name('social-media.delete');
 
-    Route::get('users', [UserController::class, 'index'])->name('user.index');
-    Route::get('users/create', [UserController::class, 'create'])->name('user.create');
-    Route::post('users/create', [UserController::class, 'store']);
-    Route::get('users/{user:username}/edit', [UserController::class, 'edit'])->name('user.edit');
-    Route::post('users/{user:username}/edit', [UserController::class, 'update']);
-    Route::post('users/change-status', [UserController::class, 'changeStatus'])->name('user.change-status');
-    Route::post('users/change-remember-token', [UserController::class, 'changeRememberToken'])->name('user.change-remember-token');
-    Route::post('users/delete', [UserController::class, 'delete'])->name('user.delete');
-    Route::post('users/restore', [UserController::class, 'restore'])->name('user.restore');
+
 });
+Route::get("admin/login", [LoginController::class, "showLogin"])->name("admin.login");
+Route::post("admin/login", [LoginController::class, "login"]);
 
 
-Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
-    \UniSharp\LaravelFilemanager\Lfm::routes();
-});
 
 Route::get('/', [FrontController::class, 'home'])->name('home');
 Route::get('/kategoriler/{category:slug}', [FrontController::class, 'category'])->name('front.category');
-Route::get('/{user:username}}/{article:slug}', [FrontController::class, 'articleDetail'])->name('front.articleDetail');
+Route::get('/@{user:username}}/{article:slug}', [FrontController::class, 'articleDetail'])->name('front.articleDetail');
 Route::post('{article:id}/makale-yorum', [FrontController::class, 'articleComment'])->name('articleComment');
 
 
 
 
-Route::get("/login", [LoginController::class, "showLogin"])->name("login");
-Route::post("/login", [LoginController::class, "login"]);
-Route::post("/logout", [LoginController::class, "logout"])->name("logout");
-
 Route::get("/register", [RegisterController::class, "showRegister"])->name("register");
 Route::post("/register", [RegisterController::class, "register"]);
+
+Route::get('/auth/verify/{token}', [RegisterController::class, 'verify'])->name('verify.token');
+
+Route::get("/login", [LoginController::class, "showLogin"])->name("user.login");
+Route::post("/logout", [LoginController::class, "logout"])->name("logout");
+
+

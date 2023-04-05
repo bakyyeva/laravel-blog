@@ -26,7 +26,12 @@ class User extends Authenticatable
         'username',
         'about',
         'image',
-        'status'
+        'status',
+        'google_id',
+        'facebook_id',
+        'twitter_id',
+        'github_id',
+        'email_verified_at'
     ];
 
     /**
@@ -56,6 +61,16 @@ class User extends Authenticatable
     public function categories(): HasMany
     {
         return $this->hasMany(Category::class, 'user_id', 'id');
+    }
+
+    public function articleLike(): HasMany
+    {
+        return $this->hasMany(UserLikeArticle::class, 'user_id', 'id');
+    }
+
+    public function commentLike(): HasMany
+    {
+        return $this->hasMany(UserLikeComment::class, 'user_id', 'id');
     }
 
     public function scopeStatus($q, $status)

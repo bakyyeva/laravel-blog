@@ -15,7 +15,7 @@ class Article extends Model
 
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
-    public function getTagsAttribute(): array|false
+    public function getTagsToArrayAttribute(): array|false
     {
         return explode(",", $this->attributes['tags']);
     }
@@ -76,5 +76,10 @@ class Article extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(ArticleComment::class, 'article_id', 'id');
+    }
+
+    public function articleLikes(): HasMany
+    {
+        return $this->hasMany(UserLikeArticle::class, 'article_id', 'id');
     }
 }

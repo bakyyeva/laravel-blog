@@ -125,7 +125,7 @@
                                     {!! substr($article->body, 0, 20) !!}
                                 </span>
                             </td>
-{{--                            <td>{{ $article->tags }}</td>--}}
+                            <td>{{ $article->tags }}</td>
                             <td>{{ $article->view_count }}</td>
                             <td>{{ $article->like_count }}</td>
                             <td>{{ \Carbon\Carbon::parse($article->publish_date)->translatedFormat("d F Y H:i:s")}}</td>
