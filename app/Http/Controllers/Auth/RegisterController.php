@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserRegisteredEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\Category;
@@ -38,17 +39,12 @@ class RegisterController extends Controller
 
         $user->save();
 
-        $token = Str::random(60);
+        event(new UserRegisteredEvent($user));
 
-        UserVerify::create([
-            'user_id' => $user->id,
-            'token' => $token
-        ]);
-
-        Mail::send('email.verify', compact('token'), function ($mail) use ($user){
-            $mail->to($user->email);
-            $mail->subject('Doğrulama Emaili');
-        });
+//        Mail::send('email.verify', compact('token'), function ($mail) use ($user){
+//            $mail->to($user->email);
+//            $mail->subject('Doğrulama Emaili');
+//        });
 
          alert()->success('Başarılı', 'Mailinize onay maili gönderilmiştir. Lütfen mail kutunuzu kontrol ediniz')
              ->showConfirmButton('Tamam', '#3085d6')

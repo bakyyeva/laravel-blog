@@ -1,6 +1,11 @@
 <h1>Doğrulama Emaili</h1>
 
-Lütfen aşağıdaki linkten mailinizi doğrulayınız.
+<p>
+    Merhba {{ $user->name }}, hoşgeldiniz.
+</p>
+<p>
+    Lütfen aşağıdaki linkten mailinizi doğrulayınız.
+</p>
 
 <a href="{{ route('verify.token', ['token' => $token]) }}">
     Mailimi doğrulama

@@ -76,6 +76,57 @@
                 </div>
             </div>
 
+            @if(isset($suggestArticles) && count($suggestArticles))
+            <div class="mt-5">
+                <div class="swiper-most-popular mt-3">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        @foreach($suggestArticles as $suggestArticle)
+                            @php
+                                $publishDate = \Carbon\Carbon::parse($suggestArticle->publish_date)->format("d-m-Y");
+                                $image = $suggestArticle->image;
+                                    if(!file_exists(public_path($image)))
+                                        {
+                                          $image = $settings->article_default_image;
+                                        }
+                            @endphp
+                            <div class="swiper-slide">
+                                <a href="{{ route('front.articleDetail', [
+                                'user' => $suggestArticle->user,
+                                'article' => $suggestArticle->slug
+                                ]) }}">
+                                    <img src="{{ asset($image) }}" class="img-fluid">
+                                </a>
+
+                                <div class="most-popular-body mt-2">
+                                    <div class="most-popular-author d-flex justify-content-between">
+                                        <div>
+                                            Yazar: <a href="#">{{ $suggestArticle->user->name }}</a>
+                                        </div>
+                                        <div class="text-end">Kategori:
+                                            <a href="{{ route('front.category', ['category' => $suggestArticle->category->slug]) }}">
+                                                {{ $suggestArticle->category->name }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="most-popular-title">
+                                        <h4 class="text-black">
+                                            <a href="#">
+                                                {{ $suggestArticle->title }}
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div class="most-popular-date">
+                                        <span>{{ $publishDate }}</span> &#x25CF; <span>10 dk</span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            @endif
+
         </section>
 
         <section class="article-responses mt-4">

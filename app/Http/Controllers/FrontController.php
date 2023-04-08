@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\View;
 
 class FrontController extends Controller
 {
-    //*** View Share
+    //*** View Share***
 //    public function __construct()
 //    {
 //        $settings = Settings::first();
@@ -23,10 +23,6 @@ class FrontController extends Controller
 
     public function home()
     {
-        //View Composer ile kullandım
-//        $settings = Settings::first();
-//        $categories = Category::query()->where("status", 1)->get();
-//        compact("settings", "categories")
         return view("front.index");
     }
 
@@ -74,6 +70,20 @@ class FrontController extends Controller
             ->where('slug', $articleSlug)
             ->first();
 
+
+
+        $visitedArticlesCategoryIds = Article::query()
+            ->whereIn('id', $visitedArticles)
+            ->pluck('category_id');
+
+        $suggestArticles = Article::query()
+            ->with(['user', 'category'])
+            ->whereIn('category_id', $visitedArticlesCategoryIds)
+            ->whereNotIn('id', $visitedArticles)
+            ->limit(6)
+            ->get();
+
+
         $userLike = $article
             ->articleLikes
             ->where("article_id", $article->id)
@@ -83,7 +93,7 @@ class FrontController extends Controller
         $article->increment('view_count');
         $article->save();
 
-        return view('front.article-detail', compact('article', 'userLike'));
+        return view('front.article-detail', compact('article', 'userLike', 'suggestArticles'));
 
     }
 
