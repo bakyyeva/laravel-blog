@@ -82,6 +82,12 @@
                             </div>
                         </div>
                         <div class="form-check mt-5">
+                            <input class="form-check-input" type="checkbox" name="is_admin" value="1" id="is_admin" {{ isset($user) && $user->is_admin ? 'checked' : '' }}>
+                            <label class="form-check-label" for="is_admin">
+                                Kullanıcı Admin mi?
+                            </label>
+                        </div>
+                        <div class="form-check mt-5">
                             <input class="form-check-input" type="checkbox" name="status" value="1" id="status" {{ isset($user) && $user->status ? 'checked' : '' }}>
                             <label class="form-check-label" for="status">
                                 Kullanıcı Aktif Olsun mu?

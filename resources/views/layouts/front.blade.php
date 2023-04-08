@@ -33,7 +33,7 @@
     <div class="container">
         <div class="header-top d-flex justify-content-between align-items-center header-border header-h">
             <div class="header-logo">
-                <img src="{{ isset($settings) ? asset($settings->logo) : asset("assets2/front/image/logo.png") }}" class="logo-h img-fluid">
+                <img src="{{ isset($settings) ? asset($settings->logo) : asset("assets/front/image/logo.png") }}" class="logo-h img-fluid">
             </div>
             <div class="header-text d-none d-md-block">
                 @isset($settings)
@@ -85,13 +85,13 @@
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link d-flex kayit" href="{{ route("register") }}">
-                                    <span class="material-icons-outlined align-items-center me-1">app_registration</span>
+                                    <span class="material-icons-outlined align-items-center me-1 kayit">app_registration</span>
                                     Kayıt
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link d-flex kayit" href="{{ route("user.login") }}">
-                                    <span class="material-icons-outlined align-items-center me-1">how_to_reg</span>
+                                    <span class="material-icons-outlined align-items-center me-1 kayit">how_to_reg</span>
                                     Giriş
                                 </a>
                             </li>

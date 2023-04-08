@@ -31,7 +31,8 @@ class User extends Authenticatable
         'facebook_id',
         'twitter_id',
         'github_id',
-        'email_verified_at'
+        'email_verified_at',
+        'is_admin'
     ];
 
     /**
@@ -77,6 +78,12 @@ class User extends Authenticatable
     {
         if(!is_null($status))
             return $q->where('status', $status);
+    }
+
+    public function scopeIsAdmin($q, $is_admin)
+    {
+        if(!is_null($is_admin))
+            return $q->where('is_admin', $is_admin);
     }
 
     public function scopeSearchText($query, $search_text)

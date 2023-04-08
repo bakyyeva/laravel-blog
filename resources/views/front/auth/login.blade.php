@@ -7,7 +7,7 @@
         <div class="col-md-12">
             <x-bootstrap.card>
                 <x-slot:header>
-                    KAYIT OL
+                    Giriş Yap
                 </x-slot:header>
                 <x-slot:body>
                     @if($errors->any())
@@ -15,17 +15,11 @@
                             <div class="alert alert-danger">{{ $error }}</div>
                         @endforeach
                     @endif
-                    <form action="{{ route("register") }}" method="POST" class="register-form">
+                    <form action="{{ route("user.login") }}" method="POST" class="register-form">
                         @csrf
                         <div class="row">
                             <div class="col-md-12 mt-2">
-                                <input type="text" name="name" id="name" class="form-control" placeholder="Ad Soyad">
-                            </div>
-                            <div class="col-md-12 mt-2">
                                 <input type="email" name="email" id="email" class="form-control" placeholder="Email">
-                            </div>
-                            <div class="col-md-12 mt-2">
-                                <input type="text" name="username" id="username" class="form-control" placeholder="Kullanıcı Adı">
                             </div>
                             <div class="col-md-12 mt-2">
                                 <input type="password" name="password" id="password" class="form-control" placeholder="Parolanız">
@@ -37,7 +31,7 @@
 
                             <div class="col-md-12 social-media-register">
                                 <div class="d-flex justify-content-center">
-                                    <a href="{{ route('socialLogin', ['driver' => 'google']) }}">
+                                    <a href="">
                                         <i class="fa fa-google fa-2x me-3"></i>
                                     </a>
                                     <a href="">
@@ -60,7 +54,7 @@
                                 </div>
                                 <hr class="m-0 mb-4">
 
-                                <button class="btn btn-success w-100">KAYIT OL</button>
+                                <button class="btn btn-success w-100">Giriş Yap</button>
                             </div>
 
                         </div>

@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -15,9 +16,18 @@ class LoginController extends Controller
     {
         if(Auth::check())
         {
-            return redirect()->route('home');
+            return redirect()->route('admin.home');
         }
         return view("auth.login");
+    }
+
+    public function showLoginUser()
+    {
+        if(Auth::check())
+        {
+            return redirect()->route('home');
+        }
+        return view("front.auth.login");
     }
 
     public function login(LoginRequest $request)
@@ -29,6 +39,12 @@ class LoginController extends Controller
         if($user && Hash::check($request->password, $user->password))
         {
             Auth::login($user, $remember);
+
+            $userIsAdmin = Auth::user()->is_admin;
+
+            if (!$userIsAdmin)
+                return redirect()->route('home');
+
             return redirect()->route('admin.home');
         }
         return back()->withErrors([
@@ -42,13 +58,19 @@ class LoginController extends Controller
     {
         if (Auth::check())
         {
+            $isAdmin = Auth::user()->is_admin;
             Auth::logout();
 
             $request->session()->invalidate();
 
             $request->session()->regenerateToken();
 
-            return redirect()->route("login");
+            if (!$isAdmin)
+                return redirect()->route('home');
+
+            return redirect()->route("auth.login");
         }
     }
+
+
 }

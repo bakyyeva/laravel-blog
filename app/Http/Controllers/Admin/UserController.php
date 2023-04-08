@@ -16,6 +16,7 @@ class UserController extends Controller
         $users = User::query()
             ->withTrashed()
             ->status($request->status)
+            ->isAdmin($request->is_admin)
             ->searchText($request->search_text)
             ->paginate(3);
 
@@ -109,10 +110,28 @@ class UserController extends Controller
         $user->save();
 
         $statusText = ($oldStatus == 1 ? 'Aktif' : 'Pasif') . "'ten" . ($user->status == 1 ? ' Aktif' : ' Pasif');
-        alert()->success('Başarılı', $user->title . ' status ' . $statusText . ' olarak güncellendi')->showConfirmButton('Tamam', '#3085d6')->autoClose(5000);
+        alert()->success('Başarılı', $user->name . ' status ' . $statusText . ' olarak güncellendi')->showConfirmButton('Tamam', '#3085d6')->autoClose(5000);
 
         return redirect()->back();
     }
+
+    public function changeIsAdmin(UserIdRequest $request)
+    {
+        $user = User::query()->where('id', $request->id)->firstOrFail();
+
+        $oldIsAdmin = $user->is_admin;
+        $user->is_admin = !$user->is_admin;
+        $user->save();
+
+        $statusText = ($oldIsAdmin == 1 ? 'Aktif' : 'Pasif') . "'ten" . ($user->is_admin == 1 ? ' Aktif' : ' Pasif');
+        alert()->success('Başarılı', $user->name . ' is Admin ' . $statusText . ' olarak güncellendi')->showConfirmButton('Tamam', '#3085d6')->autoClose(5000);
+
+        return redirect()->back();
+    }
+
+
+
+
 
     public function changeRememberToken(UserIdRequest $request)
     {

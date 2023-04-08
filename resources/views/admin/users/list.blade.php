@@ -41,6 +41,13 @@
                             <option value="1" {{ request()->get("status") === "1" ? "selected" : "" }}>Aktif</option>
                         </select>
                     </div>
+                    <div class="col-3 my-2">
+                        <select class="form-select form-control" name="is_admin" aria-label="Is Admin">
+                            <option value="{{ null }}">User Role</option>
+                            <option value="0" {{ request()->get("is_admin") === "0" ? "selected" : "" }}>User</option>
+                            <option value="1" {{ request()->get("is_admin") === "1" ? "selected" : "" }}>Admin</option>
+                        </select>
+                    </div>
                     <hr>
                     <div class="col-6 mb-2 d-flex">
                         <button class="btn btn-primary w-50 me-4" type="submit">Filtrele</button>
@@ -59,6 +66,7 @@
                     <th scope="col">Username</th>
                     <th scope="col">Email</th>
                     <th scope="col">Status</th>
+                    <th scope="col">Is Admin</th>
                     <th scope="col">Actions</th>
                 </x-slot:columns>
                 <x-slot:rows>
@@ -77,6 +85,13 @@
                                     <a href="javascript:void(0)" data-id="{{ $user->id }}" class="btn btn-success btn-sm btnChangeStatus">Aktif</a>
                                 @else
                                     <a href="javascript:void(0)" data-id="{{ $user->id }}" class="btn btn-danger btn-sm btnChangeStatus">Pasif</a>
+                                @endif
+                            </td>
+                            <td>
+                                @if($user->is_admin)
+                                    <a href="javascript:void(0)" data-id="{{ $user->id }}" class="btn btn-primary btn-sm btnChangeIsAdmin">Admin</a>
+                                @else
+                                    <a href="javascript:void(0)" data-id="{{ $user->id }}" class="btn btn-secondary btn-sm btnChangeIsAdmin">User</a>
                                 @endif
                             </td>
                             <td>
@@ -121,6 +136,7 @@
     <script src="{{ asset("assets/js/pages/select2.js") }}"></script>
     <script>
         $(document).ready(function(){
+
             $('.btnChangeStatus').click(function () {
                 let userID = $(this).data('id');
 
@@ -138,6 +154,36 @@
                     if (result.isConfirmed)
                     {
                         $('#statusChangeForm').attr("action", "{{ route('user.change-status') }}");
+                        $('#statusChangeForm').submit();
+                    } else if (result.isDenied)
+                    {
+                        Swal.fire({
+                           title: 'Bilgi',
+                            text: 'Herhangi bir işlem yapılmadı',
+                            confirmButtonText: 'Tamam',
+                            icon: 'info'
+                        });
+                    }
+                })
+            });
+
+            $('.btnChangeIsAdmin').click(function () {
+                let userID = $(this).data('id');
+
+                $('#inputStatus').val(userID);
+
+                Swal.fire({
+                    title: 'Admin durumunu değiştirmek istediğinizden emin misiniz?',
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: 'Evet',
+                    denyButtonText: `Hayır`,
+                    cancelButtonText: 'Iptal'
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed)
+                    {
+                        $('#statusChangeForm').attr("action", "{{ route('user.change-is-admin') }}");
                         $('#statusChangeForm').submit();
                     } else if (result.isDenied)
                     {
