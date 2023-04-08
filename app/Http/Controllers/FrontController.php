@@ -52,25 +52,8 @@ class FrontController extends Controller
 //    public function articleDetail(Request $request, User $user, Article $article)
     public function articleDetail(Request $request, string $username, string $articleSlug)
     {
-        $article = Article::query()->with([
-            'user',
-            'user.articleLike',
-            'comments' => function($query) {
-                 $query->where('status', 1)
-                     ->whereNull('parent_id');
-            },
-            'comments.commentLikes',
-            'comments.user',
-            'comments.children' => function($query) {
-                $query->where('status', 1);
-            },
-            'comments.children.user',
-            'comments.children.commentLikes'
-        ])
-            ->where('slug', $articleSlug)
-            ->first();
-
-
+        $article = session()->get('last_article');
+        $visitedArticles = session()->get('visited_articles');
 
         $visitedArticlesCategoryIds = Article::query()
             ->whereIn('id', $visitedArticles)

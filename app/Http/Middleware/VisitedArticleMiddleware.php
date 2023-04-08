@@ -10,9 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class VisitedArticleMiddleware
 {
 
-    public function __construct(public Article $article)
-    {
-    }
+    public function __construct(public Article $article) {}
 
     /**
      * Handle an incoming request.
@@ -21,7 +19,25 @@ class VisitedArticleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-      dd($article);
+
+        $article = $this->article::query()->with([
+//            'user',
+            'user.articleLike',
+            'comments' => function($query) {
+                $query->where('status', 1)
+                    ->whereNull('parent_id');
+            },
+            'comments.commentLikes',
+            'comments.user',
+            'comments.children' => function($query) {
+                $query->where('status', 1);
+            },
+            'comments.children.user',
+            'comments.children.commentLikes'
+        ])
+            ->where('slug', $request->article)
+            ->first();
+
         $visitedArticles = session()->get('visited_articles', []);
         $visitedArticles[] = $article->id;
         session()->put('visited_articles', $visitedArticles);
