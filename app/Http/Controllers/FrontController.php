@@ -39,13 +39,14 @@ class FrontController extends Controller
 
         /*TEK SORGU İLE articles almak*/
         $articles = Article::query()
-            ->with(['user:id,name,username', 'category:id,name'])
+            ->with(['user:id,name,username', 'category:id,name,slug'])
             ->whereHas('category', function ($query) use($slug){
                 $query->where('slug', $slug);
 //            })->get();
-            })->paginate(2);
+            })->paginate(21);
 
-       return view('front.article-list', compact('category',  'articles'));
+       $title = Category::query()->where('slug', $slug)->first()->name . " Kategorisine Ait Makaleler.";
+       return view('front.article-list', compact('category',  'articles', 'title'));
 
     }
 
@@ -55,13 +56,26 @@ class FrontController extends Controller
         $article = session()->get('last_article');
         $visitedArticles = session()->get('visited_articles');
 
-        $visitedArticlesCategoryIds = Article::query()
+        $visitedArticlesCategoryIds = [];
+        $visitedArticlesAuthorIds = [];
+
+        $visitedInfo = Article::query()
+            ->select('category_id', 'user_id')
             ->whereIn('id', $visitedArticles)
-            ->pluck('category_id');
+            ->get();
+
+        foreach ($visitedInfo as $item)
+        {
+            $visitedArticlesCategoryIds[] = $item->category_id;
+            $visitedArticlesAuthorIds[] = $item->user_id;
+        }
 
         $suggestArticles = Article::query()
             ->with(['user', 'category'])
-            ->whereIn('category_id', $visitedArticlesCategoryIds)
+            ->where(function ($query) use ($visitedArticlesCategoryIds, $visitedArticlesAuthorIds){
+                $query->whereIn('category_id', $visitedArticlesCategoryIds)
+                    ->orWhereIn('user_id', $visitedArticlesAuthorIds);
+            })
             ->whereNotIn('id', $visitedArticles)
             ->limit(6)
             ->get();
@@ -96,6 +110,44 @@ class FrontController extends Controller
         }
         alert()->success('Başarılı', "Yorumunuz gönderilmiştir. Kontrol sonrası yayınlanacaktır.")->showConfirmButton('Tamam', '#3085d6')->autoClose(5000);
         return redirect()->back();
+    }
+
+    public function authorArticles(Request $request, string $username)
+    {
+        $articles = Article::query()
+            ->with(['user:id,name,username', 'category:id,name,slug'])
+            ->whereHas('user', function ($query) use($username){
+                $query->where('username', $username);
+            })->paginate(21);
+
+        $title = User::query()->where('username', $username)->first()->name . " Makaleleri";
+        return view('front.article-list', compact('articles', 'title'));
+    }
+
+    public function search(Request $request)
+    {
+        $searchText = $request->q;
+
+        $articles = Article::query()
+            ->with(['user', 'category'])
+            ->whereHas('user', function ($query) use ($searchText){
+                $query->where('name', 'LIKE', '%' . $searchText . '%')
+                    ->orWhere('username', 'LIKE', '%' . $searchText . '%')
+                    ->orWhere('about', 'LIKE', '%' . $searchText . '%');
+            })
+            ->whereHas('category', function ($query) use ($searchText){
+                $query->orWhere('name', 'LIKE', '%' . $searchText . '%')
+                    ->orWhere('description', 'LIKE', '%' . $searchText . '%')
+                    ->orWhere('slug', 'LIKE', '%' . $searchText . '%');
+            })
+            ->orWhere('title', 'LIKE', '%' . $searchText . '%')
+            ->orWhere('slug', 'LIKE', '%' . $searchText . '%')
+            ->orWhere('body', 'LIKE', '%' . $searchText . '%')
+            ->orWhere('tags', 'LIKE', '%' . $searchText . '%')
+            ->paginate(30);
+
+        $title = $searchText . " Arama Sonucu";
+        return view('front.article-list', compact('articles', 'title'));
     }
 
 }

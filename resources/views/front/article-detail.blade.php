@@ -22,11 +22,20 @@
                         @endphp
                         <time datetime="{{ $publishDate }}">{{ $publishDate }}</time>
                         @foreach($article->getAttribute("tagsToArray") as $tag)
-                            <span class="{{ $randomClass }}">{{ $tag }}</span>
+                            <a href="{{ route('front.search', ['q' => $tag]) }}">
+                                <span class="{{ $randomClass }}">{{ $tag }}</span>
+                            </a>
                         @endforeach
                     </div>
                     <div class="article-header-author">
-                        Yazar: <a href="#"><strong>{{ $article->user->name }}</strong></a>
+                        Yazar:
+                        <a href="#">
+                            <strong>{{ $article->user->name }}</strong>
+                        </a> <br>
+                        Kategory:
+                        <a href="" class="category-link">
+                            {{ $article->category->name }}
+                        </a>
                     </div>
 
                 </div>
@@ -78,14 +87,13 @@
 
             @if(isset($suggestArticles) && count($suggestArticles))
             <div class="mt-5">
-                <div class="swiper-most-popular mt-3">
-                    <!-- Additional required wrapper -->
+                <div class="swiper-suggest-article mt-3">
                     <div class="swiper-wrapper">
                         @foreach($suggestArticles as $suggestArticle)
                             @php
                                 $publishDate = \Carbon\Carbon::parse($suggestArticle->publish_date)->format("d-m-Y");
                                 $image = $suggestArticle->image;
-                                    if(!file_exists(public_path($image)))
+                                    if(!file_exists(public_path($image)) || is_null($image))
                                         {
                                           $image = $settings->article_default_image;
                                         }
@@ -104,7 +112,7 @@
                                             Yazar: <a href="#">{{ $suggestArticle->user->name }}</a>
                                         </div>
                                         <div class="text-end">Kategori:
-                                            <a href="{{ route('front.category', ['category' => $suggestArticle->category->slug]) }}">
+                                            <a href="{{ route('front.categoryArticles', ['category' => $suggestArticle->category->slug]) }}">
                                                 {{ $suggestArticle->category->name }}
                                             </a>
                                         </div>
