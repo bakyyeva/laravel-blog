@@ -125,9 +125,16 @@ Route::get("/login", [LoginController::class, "showLoginUser"])->name("user.logi
 Route::post("/login", [LoginController::class, "login"]);
 Route::post("/logout", [LoginController::class, "logout"])->name("logout");
 
+Route::get('/parola-sifirla', [LoginController::class, 'showPasswordReset'])->name('passwordReset');
+Route::post('/parola-sifirla', [LoginController::class, 'sendPasswordReset']);
+Route::get('/parola-sifirla/{token}', [LoginController::class, 'showPasswordResetConfirm'])->name('passwordResetToken');
+Route::post('/parola-sifirla/{token}', [LoginController::class, 'passwordReset']);
+
 Route::get('/auth/verify/{token}', [RegisterController::class, 'verify'])->name('verify.token');
 Route::get('/auth/{driver}/callback', [RegisterController::class, 'socialVerify'])->name('socialVerify');
 Route::get('/auth/{driver}', [RegisterController::class, 'socialLogin'])->name('socialLogin');
+
+Route::get('/iletisim', [LoginController::class, 'contact'])->name('contact');
 
 
 
