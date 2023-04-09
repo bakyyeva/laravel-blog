@@ -34,6 +34,10 @@ class SettingsController extends Controller
             $settings->category_default_image = $this->imageUpload($request, "category_default_image", $settings->category_default_image);
         if (!is_null($request->article_default_image))
             $settings->article_default_image = $this->imageUpload($request, "article_default_image", $settings->article_default_image);
+        if (!is_null($request->default_comment_profile_image))
+            $settings->default_comment_profile_image = $this->imageUpload($request, "default_comment_profile_image", $settings->default_comment_profile_image);
+        if (!is_null($request->reset_password_image))
+            $settings->reset_password_image = $this->imageUpload($request, "reset_password_image", $settings->reset_password_image);
 
         $settings->save();
 
@@ -41,7 +45,7 @@ class SettingsController extends Controller
         return redirect()->route("settings");
     }
 
-    public function imageUpload(Request $request, string $imageName, string $oldImagePath): string
+    public function imageUpload(Request $request, string $imageName, string|null $oldImagePath): string
     {
         $imageFile = $request->file($imageName);
         $originalName = $imageFile->getClientOriginalName();

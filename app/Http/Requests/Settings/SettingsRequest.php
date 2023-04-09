@@ -25,6 +25,8 @@ class SettingsRequest extends FormRequest
             'logo' => ['image', 'max:2048', 'nullable'],
             'category_default_image' => ['image', 'max:2048', 'nullable'],
             'article_default_image' => ['image', 'max:2048', 'nullable'],
+            'default_comment_profile_image' => ['image', 'max:2048', 'nullable'],
+            'reset_password_image' => ['image', 'max:2048', 'nullable'],
             'header_text' => ['max:255', 'nullable'],
             'footer_text' => ['max:255', 'nullable'],
             'telegram_link' => ['max:255', 'nullable'],

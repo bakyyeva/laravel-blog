@@ -15,11 +15,7 @@
         <x-slot:body>
             <div class="example-container">
                 <div class="example-content">
-                    @if($errors->any())
-                        @foreach($errors->all() as $error)
-                            <div class="alert alert-danger">{{ $error }}</div>
-                        @endforeach
-                    @endif
+                    <x-errors.display-error />
                     <form  action="{{ route('settings') }}"
                            method="POST"
                            enctype="multipart/form-data"
@@ -69,6 +65,7 @@
                         @if(isset($settings) && $settings->logo)
                             <img src="{{ asset($settings->logo) }}" class="img-fluid" style="max-height: 100px">
                         @endif
+                        <hr>
                         <label for="category_default_image" class="form-label m-t-sm">Varsayılan Kategori Görseli</label>
                         <input type="file" name="category_default_image" id="category_default_image" accept="image/png, image/jpeg, image/jpg" class="form-control
                                @if($errors->has("category_default_image"))
@@ -84,6 +81,7 @@
                         @if(isset($settings) && $settings->category_default_image)
                             <img src="{{ asset($settings->category_default_image) }}" class="img-fluid" style="max-height: 100px">
                         @endif
+                        <hr>
                         <label for="article_default_image" class="form-label m-t-sm">Varsayılan Makale Görseli</label>
                         <input type="file" name="article_default_image" id="article_default_image" accept="image/png, image/jpeg, image/jpg" class="form-control
                                @if($errors->has("article_default_image"))
@@ -99,6 +97,40 @@
                         @if(isset($settings) && $settings->article_default_image)
                             <img src="{{ asset($settings->article_default_image) }}" class="img-fluid" style="max-height: 100px">
                         @endif
+                        <hr>
+                        <label for="reset_password_image" class="form-label m-t-sm">Varsayılan Parola Sıfırlama Görseli</label>
+                        <input type="file" name="reset_password_image" id="reset_password_image" accept="image/png, image/jpeg, image/jpg" class="form-control
+                               @if($errors->has("reset_password_image"))
+                                   border-danger
+                               @endif
+                               "
+                        >
+                        @if($errors->has("reset_password_image"))
+                            {{ $errors->first("reset_password_image") }}
+                            <br>
+                        @endif
+                        <div class="form-text m-b-sm">Varsayılan Parola Sıfırlama Görseli Maksimum 2mb olmalıdır</div>
+                        @if(isset($settings) && $settings->reset_password_image)
+                            <img src="{{ asset($settings->reset_password_image) }}" class="img-fluid" style="max-height: 100px">
+                        @endif
+                        <hr>
+                        <label for="default_comment_profile_image" class="form-label m-t-sm">Varsayılan Kullanıcı Yorum Görseli</label>
+                        <input type="file" name="default_comment_profile_image" id="default_comment_profile_image" accept="image/png, image/jpeg, image/jpg" class="form-control
+                               @if($errors->has("default_comment_profile_image"))
+                                   border-danger
+                               @endif
+                               "
+                        >
+                        @if($errors->has("default_comment_profile_image"))
+                            {{ $errors->first("default_comment_profile_image") }}
+                            <br>
+                        @endif
+                        <div class="form-text m-b-sm">Varsayılan Kullanıcı Yorum Görseli Maksimum 2mb olmalıdır</div>
+                        @if(isset($settings) && $settings->default_comment_profile_image)
+                            <img src="{{ asset($settings->default_comment_profile_image) }}" class="img-fluid" style="max-height: 100px">
+                        @endif
+
+                        <hr>
                         <div class="form-check">
                             <input type="checkbox"  class="form-check-input"
                                    name="feature_categories_is_active"
@@ -146,4 +178,25 @@
 @section('js')
     <script src="{{ asset("assets/admin/plugins/summernote/summernote-lite.min.js") }}"></script>
     <script src="{{ asset("assets/admin/js/pages/text-editor.js") }}"></script>
+    <script src="{{ asset("assets/admin/js/custom.js") }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('#btnSave').click(function () {
+               let logoCheckStatus = imageCheck($('#logo'));
+               let category_default_imageStatus = imageCheck($('#category_default_image'));
+               let article_default_imageStatus = imageCheck($('#article_default_image'));
+               let default_comment_profile_imageStatus = imageCheck($('#default_comment_profile_image'));
+               let reset_password_imageStatus = imageCheck($('#reset_password_image'));
+
+               if (!logoCheckStatus || !category_default_imageStatus || !article_default_imageStatus || !default_comment_profile_imageStatus || !reset_password_imageStatus)
+               {
+                   return false;
+               }
+               else
+               {
+                   $('#settingsForm').submit();
+               }
+            });
+        });
+    </script>
 @endsection
