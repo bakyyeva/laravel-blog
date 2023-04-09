@@ -48,17 +48,9 @@
 {{--        @endforeach--}}
 
         @foreach($articles as $item)
-            @php
-                $publishDate = \Carbon\Carbon::parse($item->publish_date)->format("d-m-Y");
-                $image = $item->image;
-                    if(!file_exists(public_path($image)) || is_null($image))
-                        {
-                          $image = $settings->article_default_image;
-                        }
-            @endphp
             <div class="col-md-4 mt-4">
                 <a href="{{ route('front.articleDetail', ['user' => $item->user->username, 'article' => $item->slug]) }}">
-                    <img src="{{ asset($image) }}" class="img-fluid">
+                    <img src="{{ imageExist($item->image, $settings->article_default_image) }}" class="img-fluid">
                 </a>
                 <div class="most-popular-body mt-2">
                     <div class="most-popular-author d-flex justify-content-between">
@@ -76,14 +68,14 @@
                     </div>
                     <div class="most-popular-title">
                         <h4 class="text-black">
-                            <a href="#">
+                            <a href="{{ route('front.articleDetail', ['user' => $item->user->username, 'article' => $item->slug]) }}">
                                 {{ substr($item->title, 0, 20) }}
                             </a>
                         </h4>
                     </div>
                     <div class="most-popular-date">
                         <span>
-                            {{ $publishDate }}
+                            {{ $item->format_publish_date }}
                         </span> &#x25CF;
                         <span>{{ $item->read_time }}dk </span>
                     </div>
