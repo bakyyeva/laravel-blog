@@ -29,7 +29,6 @@ Route::prefix('admin')->middleware(["auth", "verified"])->group(function (){
         Route::group(['prefix' => 'filemanager'], function () {
             \UniSharp\LaravelFilemanager\Lfm::routes();
         });
-
         Route::get('/', function () {
             return view('admin.index');
         })->name('admin.home');
@@ -78,11 +77,11 @@ Route::prefix('admin')->middleware(["auth", "verified"])->group(function (){
     //Missing required parameter for [Route: logs.edit] [URI: logs/{log}/edit] [Missing parameter: log].
 //Route::resource("logs", "App\Http\Controllers\Admin\LogController");
 
-    Route::get('logs', [LogController::class, 'index'])->name('log.index');
-    Route::get('logs/{id}/edit', [LogController::class, 'edit'])->name('log.edit')->whereNumber('id');
-    Route::post('logs/{id}/edit', [LogController::class, 'update'])->whereNumber('id');
-    Route::delete('logs/delete', [LogController::class, 'delete'])->name('log.delete');
-    Route::get('logs/create', [LogController::class, 'create'])->name('log.create');
+//    Route::get('logs', [LogController::class, 'index'])->name('log.index');
+//    Route::get('logs/{id}/edit', [LogController::class, 'edit'])->name('log.edit')->whereNumber('id');
+//    Route::post('logs/{id}/edit', [LogController::class, 'update'])->whereNumber('id');
+//    Route::delete('logs/delete', [LogController::class, 'delete'])->name('log.delete');
+//    Route::get('logs/create', [LogController::class, 'create'])->name('log.create');
 
 
     Route::get('comments', [CommentController::class, 'index'])->name('comment.index');
