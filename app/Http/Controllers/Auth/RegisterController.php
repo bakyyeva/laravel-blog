@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Settings;
 use App\Models\User;
 use App\Models\UserVerify;
+use App\Traits\Loggable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,8 @@ use Laravel\Socialite\Facades\Socialite;
 
 class RegisterController extends Controller
 {
+     use Loggable;
+
 
     public function showRegister()
     {
@@ -55,7 +58,7 @@ class RegisterController extends Controller
 
     public function verify(Request $request, $token)
     {
-        $verifyQuery = UserVerify::query()->where('token', $token);
+        $verifyQuery = UserVerify::query()->with('user')->where('token', $token);
         $verifyFind = $verifyQuery->first();
 
         if (!is_null($verifyFind))
@@ -67,6 +70,7 @@ class RegisterController extends Controller
                 $user->email_verified_at = now();
                 $user->status = 1;
                 $user->save();
+                $this->log('verify user', $user->id, $user->toArray(), User::class);
                 $verifyQuery->delete();
                 $message = 'Emailiniz doğrulandı.';
             }
@@ -103,6 +107,7 @@ class RegisterController extends Controller
         if ($userCheck)
         {
             Auth::login($user);
+            $this->log('verify user', \auth()->id(), \auth()->user()->toArray(), User::class);
             return redirect()->route('home');
         }
 

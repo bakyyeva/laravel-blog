@@ -132,7 +132,7 @@ class ArticleController extends Controller
     public function delete(ArticleStatusRequest $request)
     {
         $articleID = $request->id;
-        Article::query()->where('id', $articleID)->delete();
+        Article::query()->where('id', $articleID)->first()->delete();
 
         alert()->success('Başarılı', 'Makale Silindi')->showConfirmButton('Tamam', '#3085d6')->autoClose(5000);
         return redirect()->back();
@@ -200,7 +200,7 @@ class ArticleController extends Controller
 //        $articleOld = $articleQuery->first();
 
         try {
-            $articleQuery->update($data);
+            $articleQuery->first()->update($data);
 
 //            if (!is_null($request->image))
 //            {

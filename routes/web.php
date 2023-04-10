@@ -5,12 +5,12 @@ use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SocialMediaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\Admin\ArticleCommentController;
+use App\Http\Controllers\Admin\LogController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,6 +32,9 @@ Route::prefix('admin')->middleware(["auth", "verified"])->group(function (){
         Route::get('/', function () {
             return view('admin.index');
         })->name('admin.home');
+
+        Route::get('logs-db', [LogController::class, 'index'])->name('dbLogs');
+        Route::get('logs-db/{id}', [LogController::class, 'getLog'])->name('dbLogs.getLog')->whereNumber('id');
 
         Route::get('articles', [ArticleController::class, 'index'])->name('article.index');
         Route::get('articles/create', [ArticleController::class, 'create'])->name('article.create');
@@ -74,23 +77,6 @@ Route::prefix('admin')->middleware(["auth", "verified"])->group(function (){
     Route::post('articles/favorite', [ArticleController::class, 'favorite'])->name('article.favorite');
     Route::post('article/comment-favorite', [ArticleCommentController::class, 'favorite'])->name('article.comment.favorite');
 
-    //Missing required parameter for [Route: logs.edit] [URI: logs/{log}/edit] [Missing parameter: log].
-//Route::resource("logs", "App\Http\Controllers\Admin\LogController");
-
-//    Route::get('logs', [LogController::class, 'index'])->name('log.index');
-//    Route::get('logs/{id}/edit', [LogController::class, 'edit'])->name('log.edit')->whereNumber('id');
-//    Route::post('logs/{id}/edit', [LogController::class, 'update'])->whereNumber('id');
-//    Route::delete('logs/delete', [LogController::class, 'delete'])->name('log.delete');
-//    Route::get('logs/create', [LogController::class, 'create'])->name('log.create');
-
-
-    Route::get('comments', [CommentController::class, 'index'])->name('comment.index');
-    Route::get('comments/create', [CommentController::class, 'create'])->name('comment.create');
-    Route::post('comments/create', [CommentController::class, 'store']);
-    Route::delete('comments/delete', [CommentController::class, 'delete'])->name('comment.delete');
-    Route::post('comments/change-status', [CommentController::class, 'changeStatus'])->name('comment.change-status');
-    Route::get('comments/{id}/edit', [CommentController::class, 'edit'])->name('comment.edit')->whereNumber('id');
-    Route::post('comments/{id}/edit', [CommentController::class, 'update'])->whereNumber('id');
 
     Route::get('social-medias', [SocialMediaController::class, 'index'])->name('social-media.index');
     Route::get('social-medias/create', [SocialMediaController::class, 'create'])->name('social-media.create');
@@ -114,8 +100,6 @@ Route::get('/yazarlar/{user:username}', [FrontController::class, 'authorArticles
 Route::get('/@{user:username}}/{article:slug}', [FrontController::class, 'articleDetail'])->name('front.articleDetail')->middleware('visitedArticle');
 Route::post('{article:id}/makale-yorum', [FrontController::class, 'articleComment'])->name('articleComment');
 Route::get('/arama', [FrontController::class, 'search'])->name('front.search');
-
-
 
 
 Route::get("/register", [RegisterController::class, "showRegister"])->name("register");

@@ -2,11 +2,13 @@
     <div class="table-responsive">
 @endisset
         <table class="table {{ $class ?? '' }}">
-            <thead>
+            @isset($columns)
+                <thead>
                 <tr>
                     {!! $columns !!}
                 </tr>
-            </thead>
+                </thead>
+            @endisset
             <tbody>
                 {!! $rows !!}
             </tbody>

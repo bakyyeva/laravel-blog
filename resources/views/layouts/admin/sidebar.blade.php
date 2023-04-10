@@ -75,13 +75,19 @@
                     </li>
                 </ul>
             </li>
-
             <li class="{{ Route::is("settings") ? "open" : "" }}">
                 <a href="{{ route("settings") }}" >
                     <i class="material-icons-two-tone">settings</i>
                     Ayarlar
                 </a>
             </li>
+            <li class="{{ Route::is("dbLogs") ? "open" : "" }}">
+                <a href="{{ route("dbLogs") }}" >
+                    <i class="material-icons-two-tone">settings</i>
+                    Log Yönetimi
+                </a>
+            </li>
+
 {{--            <li class="{{ Route::is("comment.index") || Route::is("comment.create") ? "open" : "" }}">--}}
 {{--                <a href="#">--}}
 {{--                    <i class="material-icons-two-tone">tune</i>--}}
@@ -112,21 +118,7 @@
 {{--                    </li>--}}
 {{--                </ul>--}}
 {{--            </li>--}}
-{{--            <li class="{{ Route::is("log.index") || Route::is("log.create") ? "open" : "" }}">--}}
-{{--                <a href="#">--}}
-{{--                    <i class="material-icons-two-tone">tune</i>--}}
-{{--                    Log Yönetimi--}}
-{{--                    <i class="material-icons has-sub-menu">keyboard_arrow_right</i>--}}
-{{--                </a>--}}
-{{--                <ul class="sub-menu" style="">--}}
-{{--                    <li>--}}
-{{--                        <a href="{{ route('log.create') }}" class="{{ Route::is('log.create') ? 'active' : '' }}">Log Ekle</a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a href="{{ route('log.index') }}" class="{{ Route::is('log.index') ? 'active' : '' }}">Log Listesi</a>--}}
-{{--                    </li>--}}
-{{--                </ul>--}}
-{{--            </li>--}}
+
 
         </ul>
     </div>

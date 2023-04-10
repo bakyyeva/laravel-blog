@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\PasswordResetRequest;
 use App\Mail\ResetPasswordMail;
 use App\Models\User;
+use App\Traits\Loggable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +18,8 @@ use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
+    use Loggable;
+
     public function showLogin()
     {
         if(Auth::check())
@@ -62,6 +65,8 @@ class LoginController extends Controller
         {
             Auth::login($user, $remember);
 
+            $this->log('login', $user->id, $user->toArray(), User::class);
+
             $userIsAdmin = Auth::user()->is_admin;
 
             if (!$userIsAdmin)
@@ -81,6 +86,9 @@ class LoginController extends Controller
         if (Auth::check())
         {
             $isAdmin = Auth::user()->is_admin;
+
+            $this->log('logout', \auth()->id(), \auth()->user()->toArray(), User::class);
+
             Auth::logout();
 
             $request->session()->invalidate();
@@ -126,6 +134,7 @@ class LoginController extends Controller
         }
 
         Mail::to($find->email)->send(new ResetPasswordMail($find, $token));
+        $this->log('password reset mail send', $find->id, $find->toArray(), User::class);
 
         alert()
             ->success('Başarılı', "Parola Sıfırlama Mailiniz gönderilmiştir")
@@ -160,6 +169,5 @@ class LoginController extends Controller
 
          return redirect()->route('user.login');
     }
-
 
 }
