@@ -162,7 +162,7 @@ class ArticleController extends Controller
 
         $articleFind = $articleQuery->first();
 
-        $slug = $request->slug ?? $request->title;
+        $slug = $articleFind->title != $request->title ? $request->title : ($request->slug ?? $request->title);
         $slug = Str::slug($slug);
         $slugTitle = Str::slug($request->title);
 

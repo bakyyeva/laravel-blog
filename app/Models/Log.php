@@ -15,6 +15,25 @@ class Log extends Model
 
     protected $dateFormat = "Y-m-d H:i:s";
 
+    public CONST ACTIONS = [
+        'create',
+        'update',
+        'delete',
+        'force delete',
+        'restore',
+        'login',
+        'logout',
+        'verify user',
+        'password reset mail send'
+    ];
+
+    public CONST MODELS = [
+        Article::class,
+        Category::class,
+        User::class,
+        Settings::class
+    ];
+
     public function loggable(): MorphTo
     {
         return $this->morphTo();

@@ -5,8 +5,7 @@
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset("assets2/plugins/select2/css/select2.min.css") }}">
-    <link rel="stylesheet" href="{{ asset("assets2/plugins/flatpickr/flatpickr.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("assets/plugins/select2/css/select2.min.css") }}">
     <style>
         .table-hover > tbody > tr:hover {
             --bs-table-hover-bg: transparent;
@@ -28,46 +27,38 @@
             <h5 class="card-title">Log Listesi </h5>
         </x-slot:header>
         <x-slot:body>
-{{--            <form action="">--}}
-{{--                <div class="row">--}}
-{{--                    <div class="col-3 my-2">--}}
-{{--                        <input type="text" name="process_id" class="form-control" placeholder="Process ID" value="{{ request()->get('process_id') }}">--}}
-{{--                    </div>--}}
-{{--                    <div class="col-3 my-2">--}}
-{{--                        <input type="text" name="process_type" class="form-control" placeholder="Process Type" value="{{ request()->get('process_type') }}">--}}
-{{--                    </div>--}}
-{{--                    <div class="col-3 my-2">--}}
-{{--                        <input type="text" class="form-control flatpickr2 m-b-sm log_date" placeholder="Log Oluşturulma Tarihi"--}}
-{{--                               name="created_log"--}}
-{{--                               id="created_log"--}}
-{{--                               value="{{ request()->get('created_log') }}"--}}
-{{--                        >--}}
-{{--                    </div>--}}
-{{--                    <div class="col-3 my-2">--}}
-{{--                        <input type="text" class="form-control flatpickr2 m-b-sm log_date" placeholder="Log Güncelleme Tarihi"--}}
-{{--                               name="updated_log"--}}
-{{--                               id="updated_log"--}}
-{{--                               value="{{ request()->get('updated_log') }}"--}}
-{{--                        >--}}
-{{--                    </div>--}}
-{{--                    <div class="col-6 my-2">--}}
-{{--                        <select class="form-select form-control" name="user_id">--}}
-{{--                            <option value="{{ null }}">Users</option>--}}
-{{--                            @foreach($users as $user)--}}
-{{--                                <option value="{{ $user->id }}" {{ request()->get("user_id") == $user->id ? "selected" : "" }}>--}}
-{{--                                    {{ $user->name }}--}}
-{{--                                </option>--}}
-{{--                            @endforeach--}}
-{{--                        </select>--}}
-{{--                    </div>--}}
-{{--                    <hr>--}}
-{{--                    <div class="col-6 mb-2 d-flex">--}}
-{{--                        <button class="btn btn-primary w-50 me-4" type="submit">Filtrele</button>--}}
-{{--                        <button class="btn btn-warning w-50" type="submit" id="btnClearFilter">Filtreyi Temizle</button>--}}
-{{--                    </div>--}}
-{{--                    <hr>--}}
-{{--                </div>--}}
-{{--            </form>--}}
+            <form action="" method="GET" id="formFilter">
+                <div class="row">
+                    <div class="col-3 my-2">
+                        <input type="text" class="form-control" placeholder="Data, Created Date" name="search_text" value="{{ request()->get("search_text") }}">
+                    </div>
+                    <div class="col-3 my-2">
+                        <input type="text" class="form-control" placeholder="User Name, Username, Email" name="user_search_text" value="{{ request()->get("user_search_text") }}">
+                    </div>
+                    <div class="col-3 my-2">
+                        <select name="model" id="models" class="js-states form-control w-100 d-none">
+                            <option value="{{ null }}">Model Seçebilirsiniz</option>
+                            @foreach($models as $model)
+                                <option {{ request()->get("model") == $model ? 'selected' : '' }}>{{ $model }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-3 my-2">
+                        <select name="action" id="actions" class="js-states form-control w-100 d-none">
+                            <option value="{{ null }}">Action Seçebilirsiniz</option>
+                            @foreach($actions as $action)
+                                <option {{ request()->get("action") == $action ? 'selected' : '' }}>{{ $action }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <hr>
+                    <div class="col-6 mb-2 d-flex">
+                        <button class="btn btn-primary w-50 me-4" type="submit">Filtrele</button>
+                        <button class="btn btn-warning w-50 " type="button" id="btnClearFilter">Filtreyi Temizle</button>
+                    </div>
+                    <hr>
+                </div>
+            </form>
             <x-bootstrap.table
             :class="'table-striped table-hover table-responsive'"
             :is-responsive="1"
@@ -138,11 +129,9 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset("assets2/plugins/select2/js/select2.full.min.js") }}"></script>
-    <script src="{{ asset("assets2/js/pages/select2.js") }}"></script>
-    <script src="{{ asset("assets2/plugins/flatpickr/flatpickr.js") }}"></script>
-{{--    <script src="{{ asset("assets2/js/pages/datepickers.js") }}"></script>--}}
-    <script src="{{ asset("assets2/admin/plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+    <script src="{{ asset("assets/plugins/select2/js/select2.full.min.js") }}"></script>
+    <script src="{{ asset("assets/js/pages/select2.js") }}"></script>
+{{--    <script src="{{ asset("assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>--}}
 
     <script>
         $(document).ready(function () {
@@ -190,28 +179,16 @@
                 })
             });
 
-
-
+            $('#models').select2();
+            $('#actions').select2();
         });
     </script>
-    <script>
-        $(".log_date").flatpickr({
-           enableTime: true,
-           enableSeconds: true,
-            // dateFormat: "Y-m-d H:i:S",
-       });
-        // const popover = new bootstrap.Popover('.example-popover', {
-        //     container: 'body'
-        // })
 
-         $("#updated_log").flatpickr({
-             enableTime: true,
-             dateFormat: "Y-m-d H:i:s",
-         });
-         const popover = new bootstrap.Popover('.example-popover', {
-             container: 'body'
-         })
-    </script>
+{{--    <script>--}}
+{{--         const popover = new bootstrap.Popover('.example-popover', {--}}
+{{--             container: 'body'--}}
+{{--         })--}}
+{{--    </script>--}}
 
 @endsection
 
