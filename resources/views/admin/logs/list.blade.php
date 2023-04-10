@@ -135,6 +135,7 @@
 
     <script>
         $(document).ready(function () {
+
             $('.btnModelLogDetail').click(function () {
                let logID = $(this).data('id');
                let self = $(this);

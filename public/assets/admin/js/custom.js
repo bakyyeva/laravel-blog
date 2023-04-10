@@ -32,3 +32,26 @@ function imageCheck (images) {
     }
     return true;
 }
+
+$(document).ready(function () {
+
+    $('#languageDropDown').click(function () {
+        $(this).addClass("show");
+    }) ;
+
+        $('#btnClearFilter').click(function () {
+            let filterInput = $('#formFilter input');
+            let filterSelect = $('#formFilter select');
+            let filters = filterInput.toArray().concat(filterSelect.toArray());
+            filters.forEach(function (element, index, arr) {
+                element.value=null;
+                if(element.nodeName == "SELECT")
+                {
+                    $(element).val(null).trigger('change');
+                }
+            })
+        });
+
+});
+
+

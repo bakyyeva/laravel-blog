@@ -29,20 +29,20 @@
                     <div class="alert alert-danger">{{ $error }}</div>
                 @endforeach
             @endif
-            <form action="">
+            <form action="" method="GET" id="formFilter">
                 <div class="row">
                     <div class="col-3 my-2">
                         <input type="text" class="form-control" placeholder="Name, Username, Email" name="search_text" value="{{ request()->get("search_text") }}">
                     </div>
                     <div class="col-3 my-2">
-                        <select class="form-select form-control" name="status" aria-label="Status">
+                        <select class="form-select" name="status" aria-label="Status">
                             <option value="{{ null }}">Status</option>
                             <option value="0" {{ request()->get("status") === "0" ? "selected" : "" }}>Pasif</option>
                             <option value="1" {{ request()->get("status") === "1" ? "selected" : "" }}>Aktif</option>
                         </select>
                     </div>
                     <div class="col-3 my-2">
-                        <select class="form-select form-control" name="is_admin" aria-label="Is Admin">
+                        <select class="form-select" name="is_admin" aria-label="Is Admin">
                             <option value="{{ null }}">User Role</option>
                             <option value="0" {{ request()->get("is_admin") === "0" ? "selected" : "" }}>User</option>
                             <option value="1" {{ request()->get("is_admin") === "1" ? "selected" : "" }}>Admin</option>
@@ -51,7 +51,7 @@
                     <hr>
                     <div class="col-6 mb-2 d-flex">
                         <button class="btn btn-primary w-50 me-4" type="submit">Filtrele</button>
-                        <button class="btn btn-warning w-50" type="submit" id="btnClearFilter">Filtreyi Temizle</button>
+                        <button class="btn btn-warning w-50" type="button" id="btnClearFilter">Filtreyi Temizle</button>
                     </div>
                     <hr>
                 </div>
@@ -258,19 +258,6 @@
                         });
                     }
                 })
-            });
-
-            $('#btnClearFilter').click(function () {
-               let inputList = $('.form-control');
-                console.log(typeof inputList);
-                console.log(inputList);
-               inputList.each(function (index, value) {
-                   if(value['value'])
-                   {
-                       value['value'] = '';
-                   }
-
-               });
             });
 
         });

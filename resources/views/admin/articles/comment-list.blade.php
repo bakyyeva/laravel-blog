@@ -38,7 +38,7 @@
                     <div class="alert alert-danger">{{ $error }}</div>
                 @endforeach
             @endif
-            <form action="{{ $page == "commentList" ? route('article.comment.list') : route('article.pending-approval') }}">
+            <form action="{{ $page == "commentList" ? route('article.comment.list') : route('article.pending-approval') }}" method="GET" id="formFilter">
                 <div class="row">
                     <div class="col-4 my-2">
                         <input type="text" class="form-control" placeholder="Comment, Name, Email" name="search_text" value="{{ request()->get("search_text") }}">
@@ -47,7 +47,7 @@
                         <input type="date" class="form-control flatpickr2 m-b-sm" placeholder="Yorum Tarihi" id="created_at" name="created_at" value="{{ request()->get("created_at") }}">
                     </div>
                     <div class="col-4 my-2">
-                        <select class="form-select form-control" name="user_id">
+                        <select class="form-select" name="user_id">
                             <option value="{{ null }}">Users</option>
                             @foreach($users as $user)
                                 <option value="{{ $user->id }}" {{ request()->get("user_id") == $user->id ? "selected" : "" }}>
@@ -58,7 +58,7 @@
                     </div>
                     @if($page === 'commenList')
                         <div class="col-4 my-2">
-                            <select class="form-select form-control" name="status" aria-label="Status">
+                            <select class="form-select" name="status" aria-label="Status">
                                 <option value="{{ null }}">Status</option>
                                 <option value="0" {{ request()->get("status") === "0" ? "selected" : "" }}>Pasif</option>
                                 <option value="1" {{ request()->get("status") === "1" ? "selected" : "" }}>Aktif</option>
@@ -68,7 +68,7 @@
                     <hr>
                     <div class="col-6 mb-2 d-flex">
                         <button class="btn btn-primary w-50 me-4" type="submit">Filtrele</button>
-                        <button class="btn btn-warning w-50" type="submit" id="btnClearFilter">Filtreyi Temizle</button>
+                        <button class="btn btn-warning w-50" type="button" id="btnClearFilter">Filtreyi Temizle</button>
                     </div>
                     <hr>
                 </div>
@@ -92,7 +92,7 @@
                         <tr id="row-{{ $comment->id }}">
                             <td>
                                 <a href="{{ route('front.articleDetail', [
-                                    'user' => $comment->article->user->username,
+                                    'user' => $comment->article->user?->username,
                                     'article' => $comment->article->slug]) }}" target="_blank">
                                     <span class="material-icons-outlined">visibility</span>
                                 </a>
@@ -315,19 +315,6 @@
                         });
                     }
                 })
-            });
-
-            $('#btnClearFilter').click(function () {
-                let inputList = $('.form-control');
-                console.log(typeof inputList);
-                console.log(inputList);
-                inputList.each(function (index, value) {
-                    if(value['value'])
-                    {
-                        value['value'] = '';
-                    }
-
-                });
             });
 
             $(".lookComment").click(function (){

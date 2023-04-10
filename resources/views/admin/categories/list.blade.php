@@ -5,7 +5,7 @@
 @endsection
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset("assets2/plugins/select2/css/select2.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("assets/plugins/select2/css/select2.min.css") }}">
     <style>
         .table-hover > tbody > tr:hover {
             --bs-table-hover-bg: transparent;
@@ -26,7 +26,7 @@
                     <div class="alert alert-danger">{{ $error }}</div>
                 @endforeach
             @endif
-            <form action="">
+            <form action="" method="GET" id="formFilter">
                 <div class="row">
                     <div class="col-3 my-2">
                         <input type="text" class="form-control" placeholder="Name" name="name" value="{{ request()->get("name") }}">
@@ -41,7 +41,7 @@
                         <input type="text" class="form-control" placeholder="Order" name="order" value="{{ request()->get("order") }}">
                     </div>
                     <div class="col-3 my-2">
-                        <select class="form-select form-control" name="parent_id">
+                        <select class="form-select" name="parent_id">
                             <option value="{{ null }}">Üst Kategori Seçin</option>
                             @foreach($parentCategories as $parent)
                                 <option value="{{ $parent->id }}" {{ request()->get("parent_id") == $parent->id ? "selected" : "" }}>{{ $parent->name }}</option>
@@ -49,7 +49,7 @@
                         </select>
                     </div>
                     <div class="col-3 my-2">
-                        <select class="form-select form-control" name="user_id">
+                        <select class="form-select" name="user_id">
                             <option value="{{ null }}">Users</option>
                             @foreach($users as $user)
                                 <option value="{{ $user->id }}" {{ request()->get("user_id") == $user->id ? "selected" : "" }}>
@@ -59,14 +59,14 @@
                         </select>
                     </div>
                     <div class="col-3 my-2">
-                        <select class="form-select form-control" name="status" aria-label="Status">
+                        <select class="form-select" name="status" aria-label="Status">
                             <option value="{{ null }}">Status</option>
                             <option value="0" {{ request()->get("status") === "0" ? "selected" : "" }}>Pasif</option>
                             <option value="1" {{ request()->get("status") === "1" ? "selected" : "" }}>Aktif</option>
                         </select>
                     </div>
                     <div class="col-3 my-2">
-                        <select class="form-select form-control" name="feature_status" aria-label="Feature Status">
+                        <select class="form-select" name="feature_status" aria-label="Feature Status">
                             <option value="{{ null }}">Feature Status</option>
                             <option value="0" {{ request()->get("feature_status") === "0" ? "selected" : "" }}>Pasif</option>
                             <option value="1" {{ request()->get("feature_status") === "1" ? "selected" : "" }}>Aktif</option>
@@ -75,7 +75,7 @@
                     <hr>
                     <div class="col-6 mb-2 d-flex">
                         <button class="btn btn-primary w-50 me-4" type="submit">Filtrele</button>
-                        <button class="btn btn-warning w-50" type="submit" id="btnClearFilter">Filtreyi Temizle</button>
+                        <button class="btn btn-warning w-50" type="button" id="btnClearFilter">Filtreyi Temizle</button>
                     </div>
                     <hr>
                 </div>
@@ -154,8 +154,8 @@
 @endsection
 
 @section('js')
-    <script src="{{ asset("assets2/plugins/select2/js/select2.full.min.js") }}"></script>
-    <script src="{{ asset("assets2/js/pages/select2.js") }}"></script>
+    <script src="{{ asset("assets/plugins/select2/js/select2.full.min.js") }}"></script>
+    <script src="{{ asset("assets/js/pages/select2.js") }}"></script>
     <script>
         $(document).ready(function(){
             $('.btnChangeStatus').click(function () {
@@ -248,20 +248,6 @@
                     }
                 })
             });
-
-            $('#btnClearFilter').click(function () {
-               let inputList = $('.form-control');
-                console.log(typeof inputList);
-                console.log(inputList);
-               inputList.each(function (index, value) {
-                   if(value['value'])
-                   {
-                       value['value'] = '';
-                   }
-
-               });
-            });
-
 
         });
     </script>

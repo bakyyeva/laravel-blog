@@ -3,8 +3,8 @@
     Makale Listeleme
 @endsection
 @section("css")
-    <link rel="stylesheet" href="{{ asset("assets2/plugins/select2/css/select2.min.css") }}">
-    <link rel="stylesheet" href="{{ asset("assets2/plugins/flatpickr/flatpickr.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("assets/plugins/select2/css/select2.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("assets/plugins/flatpickr/flatpickr.min.css") }}">
     <style>
         .table-hover > tbody > tr:hover {
             --bs-table-hover-bg: transparent;
@@ -25,7 +25,7 @@
                     <div class="alert alert-danger">{{ $error }}</div>
                 @endforeach
             @endif
-            <form action="">
+            <form action="" method="GET" id="formFilter">
                 <div class="row">
                     <div class="col-6 my-2">
                         <input type="text" class="form-control" placeholder="Title,Body,Slug,Tags" name="search_text" value="{{ request()->get("search_text") }}">
@@ -50,7 +50,7 @@
                 </div>
                 <div class="row">
                     <div class="col-4 my-2">
-                        <select class="form-select form-control" name="user_id">
+                        <select class="form-select" name="user_id">
                             <option value="{{ null }}">Users</option>
                             @foreach($users as $user)
                                 <option value="{{ $user->id }}" {{ request()->get("user_id") == $user->id ? "selected" : "" }}>
@@ -60,7 +60,7 @@
                         </select>
                     </div>
                     <div class="col-4 my-2">
-                        <select class="form-select form-control" name="category_id">
+                        <select class="form-select" name="category_id">
                             <option value="{{ null }}">Kategory Seçin</option>
                             @foreach($categories as $category)
                                 <option value="{{ $category->id }}" {{ request()->get("category_id") == $category->id ? "selected" : "" }}>
@@ -70,7 +70,7 @@
                         </select>
                     </div>
                     <div class="col-4 my-2">
-                        <select class="form-select form-control" name="status" aria-label="Status">
+                        <select class="form-select" name="status" aria-label="Status">
                             <option value="{{ null }}">Status</option>
                             <option value="0" {{ request()->get("status") === "0" ? "selected" : "" }}>Pasif</option>
                             <option value="1" {{ request()->get("status") === "1" ? "selected" : "" }}>Aktif</option>
@@ -79,7 +79,7 @@
                     <hr>
                     <div class="col-6 mb-2 d-flex">
                         <button class="btn btn-primary w-50 me-4" type="submit">Filtrele</button>
-                        <button class="btn btn-warning w-50" type="submit" id="btnClearFilter">Filtreyi Temizle</button>
+                        <button class="btn btn-warning w-50" type="button" id="btnClearFilter">Filtreyi Temizle</button>
                     </div>
                     <hr>
                 </div>
@@ -161,12 +161,12 @@
 @endsection
 
 @section("js")
-    <script src="{{ asset("assets2/plugins/select2/js/select2.full.min.js") }}"></script>
-    <script src="{{ asset("assets2/js/pages/select2.js") }}"></script>
-    <script src="{{ asset("assets2/plugins/flatpickr/flatpickr.js") }}"></script>
-    <script src="{{ asset("assets2/js/pages/datepickers.js") }}"></script>
-    <script src="{{ asset("assets2/admin/plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
-    <script src="{{ asset("assets2/admin/plugins/bootstrap/js/popper.min.js") }}"></script>
+    <script src="{{ asset("assets/plugins/select2/js/select2.full.min.js") }}"></script>
+    <script src="{{ asset("assets/js/pages/select2.js") }}"></script>
+    <script src="{{ asset("assets/plugins/flatpickr/flatpickr.js") }}"></script>
+    <script src="{{ asset("assets/js/pages/datepickers.js") }}"></script>
+    <script src="{{ asset("assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+    <script src="{{ asset("assets/admin/plugins/bootstrap/js/popper.min.js") }}"></script>
     <script>
         $(document).ready(function () {
 
@@ -234,18 +234,18 @@
 
             });
 
-            $('#btnClearFilter').click(function () {
-                let inputList = $('.form-control');
-                console.log(typeof inputList);
-                console.log(inputList);
-                inputList.each(function (index, value) {
-                    if(value['value'])
-                    {
-                        value['value'] = '';
-                    }
-
-                });
-            });
+            // $('#btnClearFilter').click(function () {
+            //     let inputList = $('.form-control');
+            //     console.log(typeof inputList);
+            //     console.log(inputList);
+            //     inputList.each(function (index, value) {
+            //         if(value['value'])
+            //         {
+            //             value['value'] = '';
+            //         }
+            //
+            //     });
+            // });
 
 
         });
