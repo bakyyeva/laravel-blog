@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Article\ArticleFilterRequest;
 use App\Http\Requests\Article\ArticleStatusRequest;
 use App\Http\Requests\Article\ArticleStoreRequest;
+use App\Http\Requests\Article\ArticleUpdateRequest;
 use App\Models\Article;
 use App\Models\Category;
 use App\Models\User;
@@ -153,32 +154,38 @@ class ArticleController extends Controller
         return view('admin.articles.create-update', compact('article','categories'));
     }
 
-    public function update(ArticleStoreRequest $request, int $articleID)
+    public function update(ArticleUpdateRequest $request, int $articleID)
     {
-
         $article = Article::query()->where('id', $articleID)->first();
+
+        $articleQuery = Article::query()->where('id', $articleID);
+
+        $articleFind = $articleQuery->first();
 
         $slug = $request->slug ?? $request->title;
         $slug = Str::slug($slug);
         $slugTitle = Str::slug($request->title);
 
-        $checkSlug = $this->slugCheck($slug);
-        if(!is_null($checkSlug))
+        if ($articleFind->slug != $slug)
         {
-            $checkTitleSlug = $this->slugCheck($slugTitle);
-            if (!is_null($checkTitleSlug))
+            $checkSlug = $this->slugCheck($slug);
+            if(!is_null($checkSlug))
             {
-                $slug = Str::slug($slug . time());
-            }
-            else
-            {
-                $slug = $slugTitle;
+                $checkTitleSlug = $this->slugCheck($slugTitle);
+                if (!is_null($checkTitleSlug))
+                {
+                    $slug = Str::slug($slug . time());
+                }
+                else
+                {
+                    $slug = $slugTitle;
+                }
             }
         }
-//        if(!is_null($request->image))
-//        {
-//            \Illuminate\Support\Facades\File::delete(public_path($article->image));
-//        }
+        else
+        {
+            unset($request->slug);
+        }
         $data = [
             'title' => $request->title,
             'slug' => $slug,
@@ -195,7 +202,6 @@ class ArticleController extends Controller
             'user_id' => auth()->id(),
             'category_id' => $request->category_id
         ];
-        $articleQuery = Article::query()->where('id', $articleID);
 
 //        $articleOld = $articleQuery->first();
 

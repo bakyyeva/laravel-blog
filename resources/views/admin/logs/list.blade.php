@@ -16,6 +16,10 @@
     </style>
 @endsection
 
+@push("style")
+    <link rel="stylesheet" href="{{ asset('assets/plugins/highlight/styles/androidstudio.css') }}">
+@endpush
+
 @section('content')
     <div class="row">
         <div class="col">
@@ -84,7 +88,8 @@
                             <td>
                                 <a href="javascript:void(0)"
                                    class="btn btn-info btn-sm btnModelLogDetail"
-                                   data-bs-toggle="modal" data-bs-target="#contentViewModal"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#contentViewModal"
                                    data-id="{{ $log->id }}"
                                 >
                                     <i class="material-icons ms-0">visibility</i>
@@ -161,6 +166,31 @@
                })
             });
 
+            $('.btnDataDetail').click(function () {
+                let logID = $(this).data('id');
+                let self = $(this);
+                let route = "{{ route('dbLogs.getLog', ['id' => ":id"]) }}";
+                route = route.replace(":id", logID);
+                $.ajax({
+                    method: "get",
+                    url:  route,
+                    async:false,
+                    data: {
+                        data_type: "data"
+                    },
+                    success: function (data) {
+                        $('#jsonData').html(JSON.stringify(data, null, 2));
+                        document.querySelectorAll('#jsonData').forEach((block) => {
+                            hljs.highlightElement(block)
+                        })
+                    },
+                    error: function (){
+                        console.log("hata geldi");
+                    }
+                })
+            });
+
+
 
         });
     </script>
@@ -184,3 +214,10 @@
     </script>
 
 @endsection
+
+@push("javascript")
+    <script src="{{ asset("assets/front/js/highlight.min.js") }}"></script>
+    <script>
+        hljs.highlightAll();
+    </script>
+@endpush

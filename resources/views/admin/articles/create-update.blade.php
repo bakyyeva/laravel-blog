@@ -16,6 +16,7 @@
             <p class="card-description">Makale {{ isset($article) ? "Güncelleme" : "Ekleme" }}  açıklaması</p>
             <div class="example-container">
                 <div class="example-content">
+                    <x-errors.display-error />
                     <form  action="{{ isset($article) ? route("article.edit", ["id" => $article->id]) : route("article.create") }}"
                            method="POST"
                            enctype="multipart/form-data"
