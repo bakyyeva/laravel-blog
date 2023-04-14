@@ -1,5 +1,10 @@
 @extends('layouts.front')
 
+@push('meta')
+    <meta name="keywords" content="{{ $settings->seo_keywords_home }}">
+    <meta name="description" content="{{ $settings->seo_description_home }}">
+@endpush
+
 @section('title')
 @endsection
 

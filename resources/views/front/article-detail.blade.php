@@ -1,5 +1,11 @@
 @extends('layouts.front')
 
+@push('meta')
+    <meta name="keywords" content="{{ $article->seo_keywords }}">
+    <meta name="description" content="{{ $article->seo_description }}">
+    <meta name="author" content="{{ $article->user->name }}">
+@endpush
+
 @section('title')
 @endsection
 

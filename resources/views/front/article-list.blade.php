@@ -1,5 +1,23 @@
 @extends('layouts.front')
 
+@push('meta')
+{{--    @php--}}
+{{--        $url = request()->url();--}}
+{{--        $url = request()->segments();    //in_array kontrol yapılabilinir--}}
+{{--        $url = request()->segment(1);  //str_contains($url, 'kategoriler') - segment(1) 1ci elemanı alır--}}
+{{--    @endphp--}}
+{{--    @if(str_contains($url, 'kategoriler'))--}}
+    @if(Route::is('front.categoryArticles'))
+        <meta name="keywords" content="{{ $category->seo_keywords }}">
+        <meta name="description" content="{{ $category->seo_description }}">
+        <meta name="author" content="{{ $category->user->name }}">
+    @else
+        <meta name="keywords" content="{{ $settings->seo_keywords_articles }}">
+        <meta name="description" content="{{ $settings->seo_description_articles }}">
+        <meta name="author" content="{{ '...' }}">
+    @endif
+@endpush
+
 @section('title')
     Makale Listesi
 @endsection
