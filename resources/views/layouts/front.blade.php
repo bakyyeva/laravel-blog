@@ -20,7 +20,8 @@
     <link rel="stylesheet" href="{{ asset("assets/front/swiper/swiper-bundle.min.css") }}">
 
     <link rel="stylesheet" href="{{ asset("assets/front/aos/aos.css") }}">
-    <link rel="stylesheet" href="{{ asset("assets/front/css/highlighter-default.min.css") }}">
+{{--    <link rel="stylesheet" href="{{ asset("assets/front/css/highlighter-default.min.css") }}">--}}
+    <link rel="stylesheet" href="{{ asset("assets/plugins/highlight/styles/androidstudio.css") }}">
 
     <link rel="stylesheet" href="{{ asset("assets/front/css/style.css") }}">
 
@@ -223,6 +224,10 @@
         {!! $text !!}
     </div>
 </footer>
+
+<div class="position-fixed scroll-to-top btn-circle btn btn-secondary">
+    <i class="fa fa-chevron-up"></i>
+</div>
 
 
 <!--<script src="assets/front/js/bootstrap.bundle.min.js"></script>-->

@@ -81,10 +81,18 @@
                     </div>
                 </div>
             </div>
+
         @endforeach
 
         <hr style="border:1px solid #a9abad;" class="mt-5">
-        <div class="col-8 mx-auto mt-5">
+
+        @if($articles->count() < 1)
+            <div class="alert alert-info">
+                İçerik bulunamamıştır.
+            </div>
+        @endif
+
+        <div class="col-12 d-flex justify-content-center mx-auto mt-5">
 {{--            <nav aria-label="Page navigation example">--}}
 {{--                <ul class="pagination justify-content-center">--}}
 {{--                    <li class="page-item disabled">--}}

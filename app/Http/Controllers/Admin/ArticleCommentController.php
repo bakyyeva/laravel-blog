@@ -49,6 +49,12 @@ class ArticleCommentController extends Controller
     {
         $comment = ArticleComment::findOrFail($request->id);
 
+        $page = $request->page;
+
+        if ($page == "approval")
+        {
+            $comment->approve_status = 1;
+        }
         $comment->status = $comment->status ? 0 : 1;
         $comment->save();
 

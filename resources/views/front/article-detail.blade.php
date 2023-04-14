@@ -73,15 +73,20 @@
                     </a>
                     <span class="fw-light" id="favoriteCount">{{ $article->like_count }}</span>
                 </div>
-                <a href="javascript:void(0)" class="btn-response btnArticleResponse">Cevap Ver</a>
+                <a href="javascript:void(0)" class="btn-response btnArticleResponse">Yorum Yap</a>
 
             </div>
 
             <div class="article-authors mt-5">
                 <div class="bg-white p-4 d-flex justify-content-between align-items-center shadow-sm">
-                    <img src="{{ imageExist($article->user->image, $settings->default_comment_profile_image) }}" alt="" width="75" height="75">
+                    <a href="{{ route('front.authorArticles', ['user' => $article->user->username])  }}">
+                        <img src="{{ imageExist($article->user->image, $settings->default_comment_profile_image) }}" alt="" width="75" height="75">
+                    </a>
                     <div class="px-5 me-auto">
-                        <h4 class="mt-3"><a href="">{{ $article->user->name }}</a></h4>
+                        <h4 class="mt-3">
+                            <a href="{{ route('front.authorArticles', ['user' => $article->user->username])  }}">
+                                {{ $article->user->name }}
+                            </a></h4>
                         {!! $article->user->about !!}
                     </div>
                 </div>
@@ -116,7 +121,10 @@
                                     </div>
                                     <div class="most-popular-title">
                                         <h4 class="text-black">
-                                            <a href="#">
+                                            <a href="{{ route('front.articleDetail', [
+                                                    'user' => $suggestArticle->user,
+                                                    'article' => $suggestArticle->slug
+                                                    ]) }}">
                                                 {{ $suggestArticle->title }}
                                             </a>
                                         </h4>
@@ -135,13 +143,13 @@
         </section>
 
         <section class="article-responses mt-4">
-            <div class="response-form bg-white shadow-sm rounded-1 p-4" style="display: none">
+            <div class="response-form bg-white shadow-sm rounded-1 p-4 d-none" id="newComment">
                 <form action="{{ route('articleComment', ['article' => $article->id]) }}" method="POST">
                     @csrf
                     <input type="hidden" name="parent_id" id="comment_parent_id" value="{{ null }}">
                     <div class="row">
                         <div class="col-12">
-                            <h5>Cevabınız</h5>
+                            <h5>Yorumunuz</h5>
                             <hr>
                         </div>
 
@@ -165,8 +173,13 @@
             </div>
 
             <div class="response-body p-4">
-                <h3>Makaleye Verilen Cevaplar</h3>
+                <h3>Yorumlar</h3>
                 <hr class="mb-4">
+                @if($article->comments->count() < 1)
+                    <div class="alert alert-info">
+                        Henüz yorum yapılmamıştır.
+                    </div>
+                @endif
 
                 @foreach($article->comments as $comment)
                     <div class="article-response-wrapper">
@@ -196,7 +209,7 @@
                                             <a href="javascript:void(0)"
                                                class="btn-response btnArticleResponseComment"
                                                data-id="{{ $comment->id }}">
-                                                Cevap Ver
+                                                Yorum Yap
                                             </a>
                                         </div>
                                         <div class="d-flex  align-items-center">
@@ -361,7 +374,18 @@
 
             $('.btnArticleResponse').click(function ()
             {
-                $('.response-form').toggle();
+                // $('.response-form').toggle();
+                let responseForm = $('.response-form');
+
+                if(responseForm.hasClass('d-none'))
+                {
+                    responseForm.removeClass('d-none');
+                    responseForm.addClass('d-block');
+                }
+
+                $('html, body').animate({
+                    scrollTop: $('#newComment').offset().top
+                }, 50)
             });
 
             $('.btnArticleResponseComment').click(function ()
@@ -369,7 +393,19 @@
                 let commentID = $(this).data("id");
                 $("#comment_parent_id").val(commentID);
 
-                $('.response-form').toggle();
+                // $('.response-form').toggle();
+
+                let responseForm = $('.response-form');
+
+                if(responseForm.hasClass('d-none'))
+                {
+                    responseForm.removeClass('d-none');
+                    responseForm.addClass('d-block');
+                }
+
+                $('html, body').animate({
+                    scrollTop: $('#newComment').offset().top
+                }, 50)
             });
 
         });

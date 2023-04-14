@@ -50,9 +50,10 @@ class FrontController extends Controller
         $categoryNames =  Cache::remember('most_popular_categories', 3600, function (){
             $mostPopularCategories = Article::query()
                 ->select('id', 'category_id')
-                ->with('category:id,name,image,description,created_at,slug')
+                ->with('category:id,name,image,description,created_at,slug,color')
                 ->whereHas('category', function ($query){
-                    $query->where('status', 1);
+                    $query->where('status', 1)
+                          ->where('feature_status', 1);
                 })
                 ->orderBy('view_count', 'DESC')
                 ->groupBy('category_id')
@@ -225,7 +226,7 @@ class FrontController extends Controller
 
     public function articleList()
     {
-        $articles = Article::query()->orderBy('publish_date', 'DESC')->paginate(21);
+        $articles = Article::query()->orderBy('publish_date', 'DESC')->paginate(9);
 
         return view('front.article-list', compact('articles'));
     }
