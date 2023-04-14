@@ -13,6 +13,7 @@ use App\Models\User;
 use App\Models\UserLikeArticle;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use function PHPUnit\Framework\fileExists;
@@ -161,6 +162,23 @@ class ArticleController extends Controller
         $articleQuery = Article::query()->where('id', $articleID);
 
         $articleFind = $articleQuery->first();
+
+        if ($articleFind->title != $request->title || $articleFind->slug != $request->slug)
+            Cache::forget("most_popular_articles");
+
+        /*  **  Cache'in belli alanlarını güncelleme   **   */
+//        if ($articleFind->title != $request->title || $articleFind->slug != $request->slug)
+//        {
+//            if (Cache::has("most_popular_articles"))
+//            {
+//                $a = Cache::get("most_popular_articles");
+//                $a->where('title', $articleFind->title)->first()->update([
+//                    'title' => $request->title,
+//                    'slug' => $slug
+//                ]);
+//                Cache::put("most_popular_articles", $a, 3600);
+//            }
+//        }
 
         $slug = $articleFind->title != $request->title ? $request->title : ($request->slug ?? $request->title);
         $slug = Str::slug($slug);

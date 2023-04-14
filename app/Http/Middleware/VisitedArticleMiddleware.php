@@ -21,7 +21,6 @@ class VisitedArticleMiddleware
     {
 
         $article = $this->article::query()->with([
-//            'user',
             'user.articleLike',
             'comments' => function($query) {
                 $query->where('status', 1)

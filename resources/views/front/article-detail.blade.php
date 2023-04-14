@@ -182,7 +182,7 @@
                                         $name = $comment->name;
                                     }
                                 @endphp
-                                <img src="{{ imageExist($comment->user->image, $settings->default_comment_profile_image) }}" alt="" width="75" height="75">
+                                <img src="{{ imageExist($comment->user?->image, $settings->default_comment_profile_image) }}" alt="" width="75" height="75">
                             </div>
                             <div class="col-md-10">
                                 <div class="px-3">
@@ -233,7 +233,7 @@
                                                     $childName = $child->name;
                                                 }
                                             @endphp
-                                            <img src="{{ imageExist($child->user->image, $settings->default_comment_profile_image) }}" alt="" width="75" height="75">
+                                            <img src="{{ imageExist($child->user?->image, $settings->default_comment_profile_image) }}" alt="" width="75" height="75">
                                         </div>
                                         <div class="col-md-10">
                                             <div class="px-3">
@@ -356,8 +356,20 @@
                         icon: "info"
                     });
                 @endif
+            });
 
 
+            $('.btnArticleResponse').click(function ()
+            {
+                $('.response-form').toggle();
+            });
+
+            $('.btnArticleResponseComment').click(function ()
+            {
+                let commentID = $(this).data("id");
+                $("#comment_parent_id").val(commentID);
+
+                $('.response-form').toggle();
             });
 
         });

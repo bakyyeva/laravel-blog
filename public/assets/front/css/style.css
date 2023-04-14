@@ -226,6 +226,48 @@ a.category-link:hover{
     color: #ee8606;
 }
 
+.most-popular-category-wrapper:hover{
+    cursor: pointer;
+}
+.most-popular-category{
+    transition: transform 0.5s;
+}
+.most-popular-category:hover{
+    transition-duration: 0.8s;
+    transform: scale(1.2);
+}
+@keyframes scrollMovie {
+    0%{
+        transform: translateY(0);
+    }
+    100%{
+        transform: translateY(-10px);
+    }
+}
+.scroll-to-top{
+    right:13px;
+    bottom: 100px;
+    background-color: #eb8508;
+    opacity: 0.75;
+    animation: scrollMovie 0.75s infinite alternate;
+    cursor: pointer;
+    display: none;
+}
+
+
+.btn-circle{
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    border-radius: 25px;
+    font-size: 20px;
+    text-align: center;
+
+}
+.bg-sub-category{
+    background-color: #eaeaea;
+}
+
 @media screen and (max-width: 768px) {
 
 }

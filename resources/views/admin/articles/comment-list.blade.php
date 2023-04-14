@@ -90,13 +90,17 @@
                 <x-slot:rows>
                     @foreach($comments as $comment)
                         <tr id="row-{{ $comment->id }}">
+                            @isset($comment->article)
                             <td>
                                 <a href="{{ route('front.articleDetail', [
-                                    'user' => $comment->article->user?->username,
-                                    'article' => $comment->article->slug]) }}" target="_blank">
+                                    'user' => $comment->article?->user->username,
+                                    'article' => $comment->article?->slug]) }}" target="_blank">
                                     <span class="material-icons-outlined">visibility</span>
                                 </a>
                             </td>
+                            @else
+                                <td></td>
+                            @endisset
                             <td>{{ $comment->user?->name}}</td>
                             <td>{{ $comment->name}}</td>
                             <td>{{ $comment->email}}</td>
