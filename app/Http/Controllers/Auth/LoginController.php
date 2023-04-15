@@ -43,9 +43,9 @@ class LoginController extends Controller
         return view('front.auth.reset-password');
     }
 
-    public function showPasswordResetConfirm(Request $request, string $token)
+    public function showPasswordResetConfirm(Request $request)
     {
-      //$token = $request->token;
+      $token = $request->token;
 
       $tokenExist = DB::table("password_reset_tokens")->where('token', $token)->first();
 
@@ -65,7 +65,7 @@ class LoginController extends Controller
         {
             Auth::login($user, $remember);
 
-            $this->log('login', $user->id, $user->toArray(), User::class);
+            $this->log('login', $user->id, $user->toArray(), User::class, true);
 
             $userIsAdmin = Auth::user()->is_admin;
 
@@ -87,7 +87,7 @@ class LoginController extends Controller
         {
             $isAdmin = Auth::user()->is_admin;
 
-            $this->log('logout', \auth()->id(), \auth()->user()->toArray(), User::class);
+            $this->log('logout', \auth()->id(), \auth()->user()->toArray(), User::class, true);
 
             Auth::logout();
 
@@ -97,6 +97,7 @@ class LoginController extends Controller
 
             if (!$isAdmin)
                 return redirect()->route('home');
+
 
             return redirect()->route("auth.login");
         }
@@ -134,7 +135,7 @@ class LoginController extends Controller
         }
 
         Mail::to($find->email)->send(new ResetPasswordMail($find, $token));
-        $this->log('password reset mail send', $find->id, $find->toArray(), User::class);
+        $this->log('password reset mail send', $find->id, $find->toArray(), User::class, true);
 
         alert()
             ->success('Başarılı', "Parola Sıfırlama Mailiniz gönderilmiştir")

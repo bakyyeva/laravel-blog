@@ -31,7 +31,8 @@ class Log extends Model
         Article::class,
         Category::class,
         User::class,
-        Settings::class
+        Settings::class,
+        ArticleComment::class
     ];
 
     public function loggable(): MorphTo

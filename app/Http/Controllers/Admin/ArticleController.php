@@ -163,8 +163,6 @@ class ArticleController extends Controller
 
         $articleFind = $articleQuery->first();
 
-        if ($articleFind->title != $request->title || $articleFind->slug != $request->slug)
-            Cache::forget("most_popular_articles");
 
         /*  **  Cache'in belli alanlarını güncelleme   **   */
 //        if ($articleFind->title != $request->title || $articleFind->slug != $request->slug)
@@ -204,6 +202,8 @@ class ArticleController extends Controller
         {
             unset($request->slug);
         }
+        if ($articleFind->title != $request->title || (isset($request->slug) && $articleFind->slug != $request->slug))
+            Cache::forget("most_popular_articles");
         $data = [
             'title' => $request->title,
             'slug' => $slug,

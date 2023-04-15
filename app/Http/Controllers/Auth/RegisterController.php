@@ -44,6 +44,7 @@ class RegisterController extends Controller
 
         event(new UserRegisteredEvent($user));
 
+
 //        Mail::send('email.verify', compact('token'), function ($mail) use ($user){
 //            $mail->to($user->email);
 //            $mail->subject('Doğrulama Emaili');
@@ -60,17 +61,20 @@ class RegisterController extends Controller
     {
         $verifyQuery = UserVerify::query()->with('user')->where('token', $token);
         $verifyFind = $verifyQuery->first();
+//        dd($verifyFind);
 
         if (!is_null($verifyFind))
         {
             $user = $verifyFind->user;
+
 
             if (is_null($user->email_verified_at))
             {
                 $user->email_verified_at = now();
                 $user->status = 1;
                 $user->save();
-                $this->log('verify user', $user->id, $user->toArray(), User::class);
+//                dd($verifyQuery, 28);
+                $this->log('verify user', $user->id, $user->toArray(), User::class, true);
                 $verifyQuery->delete();
                 $message = 'Emailiniz doğrulandı.';
             }
@@ -107,7 +111,7 @@ class RegisterController extends Controller
         if ($userCheck)
         {
             Auth::login($user);
-            $this->log('verify user', \auth()->id(), \auth()->user()->toArray(), User::class);
+            $this->log('verify user', \auth()->id(), \auth()->user()->toArray(), User::class, true);
             return redirect()->route('home');
         }
 

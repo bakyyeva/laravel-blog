@@ -82,7 +82,7 @@
                     <th scope="col">User Name</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
-                    @if(isset($page))
+                    @if(isset($page) && $page == "approval")
                         <th scope="col">Approve Status</th>
                     @else
                         <th scope="col">Status</th>
@@ -124,16 +124,16 @@
                                 @endif
                             </td>
                             <td>
-                                 <span data-bs-container="body" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="{{ substr( $comment->comments , 0, 200) }}">
-                                    {{ substr( $comment->comments, 0, 10 ) }}
-                                </span>
-                                <button type="button" class="btn btn-primary lookComment btn-sm p-0 px-2" data-comment="{{ $comment->comments }}" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                <button type="button" class="btn btn-primary lookComment btn-sm p-0 px-2"
+                                        data-comment="{{ $comment->comments }}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal">
                                     <span class="material-icons-outlined" style="line-height: unset; font-size: 20px">visibility</span>
                                 </button>
                             </td>
                             <td>{{ \Carbon\Carbon::parse($comment->created_at)->translatedFormat("d F Y H:i:s")}}</td>
                             <td>
-                                <div class="d-flex">
+                                <div class="d-flex actions-{{ $comment->id }}">
                                     <a href="javascript:void(0)"
                                        class="btn btn-danger btn-sm btnDelete"
                                        data-id="{{ $comment->id }}">
@@ -188,7 +188,7 @@
     <script>
         $(document).ready(function () {
 
-            @if(isset($page))
+            @if(isset($page) && $page == "approval")
             $('.btnChangeStatus').click(function () {
                 let id = $(this).data('id');
                 let self = $(this);
@@ -304,7 +304,6 @@
             });
             @endif
 
-
             $('.btnDelete').click(function () {
                 let commentID = $(this).data('id');
 
@@ -327,7 +326,17 @@
                             },
                             async:false,
                             success: function (data) {
-                                $('#row-' + commentID).remove();
+                                let aElement = document.createElement('a');
+                                aElement.className="btn btn-danger btn-sm btnDelete";
+                                aElement.setAttribute('data-id', commentID);
+                                aElement.setAttribute('title', "Geri al");
+                                aElement.href="javascript:void(0)";
+                                let iElement = document.createElement('i');
+                                iElement.className="material-icons ms-0";
+                                iElement.innerText='undo';
+                                aElement.append(iElement);
+                                let actions = document.getElementsByClassName('actions-' + commentID);
+                                actions[0].appendChild(aElement);
                                 Swal.fire({
                                     title: "Başarılı",
                                     text: "Yorum Silindi",
@@ -352,7 +361,8 @@
                 })
             });
 
-            $('.btnRestore').click(function () {
+            // $('body').on('click', '.btnRestore', function () {
+            $(document).on('click', 'body .btnRestore', function () {
                 let commentID = $(this).data('id');
                 let self = $(this);
                 Swal.fire({

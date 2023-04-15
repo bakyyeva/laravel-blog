@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\Admin\ArticleCommentController;
 use App\Http\Controllers\Admin\LogController;
+use App\Http\Controllers\Admin\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,9 +30,7 @@ Route::prefix('admin')->middleware(["auth", "verified"])->group(function (){
         Route::group(['prefix' => 'filemanager'], function () {
             \UniSharp\LaravelFilemanager\Lfm::routes();
         });
-        Route::get('/', function () {
-            return view('admin.index');
-        })->name('admin.home');
+        Route::get('/', [AdminController::class, 'index'])->name('admin.home');
 
         Route::get('logs-db', [LogController::class, 'index'])->name('dbLogs');
         Route::get('logs-db/{id}', [LogController::class, 'getLog'])->name('dbLogs.getLog')->whereNumber('id');
@@ -90,8 +89,6 @@ Route::prefix('admin')->middleware(["auth", "verified"])->group(function (){
 });
 Route::get("admin/login", [LoginController::class, "showLogin"])->name("auth.login");
 Route::post("admin/login", [LoginController::class, "login"]);
-
-
 
 Route::get('/', [FrontController::class, 'home'])->name('home');
 Route::get('/makaleler', [FrontController::class, 'articleList'])->name('front.articleList');
