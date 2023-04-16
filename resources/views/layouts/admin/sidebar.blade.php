@@ -70,6 +70,32 @@
                     </li>
                 </ul>
             </li>
+            <li class="{{
+                       Route::is("admin.email-themes.create") ||
+                       Route::is("admin.email-themes.index") ||
+                       Route::is("admin.email-themes.assign") ||
+                       Route::is("admin.email-themes.assign-list")
+                       ? "open" : "" }}">
+                <a href="#">
+                    <i class="material-icons-two-tone">tune</i>
+                    Email Yönetimi
+                    <i class="material-icons has-sub-menu">keyboard_arrow_right</i>
+                </a>
+                <ul class="sub-menu" style="">
+                    <li>
+                        <a href="{{ route('admin.email-themes.create') }}" class="{{ Route::is('admin.email-themes.create') ? 'active' : '' }}">Yeni Tema Ekleme</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.email-themes.index') }}" class="{{ Route::is('admin.email-themes.index') ? 'active' : '' }}">Temalar</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.email-themes.assign') }}" class="{{ Route::is('admin.email-themes.assign') ? 'active' : '' }}">Tema Atama/Seçimi</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.email-themes.assign-list') }}" class="{{ Route::is('admin.email-themes.assign-list') ? 'active' : '' }}">Tema Atama Listesi</a>
+                    </li>
+                </ul>
+            </li>
             <li class="{{ Route::is("settings") ? "open" : "" }}">
                 <a href="{{ route("settings") }}" >
                     <i class="material-icons-two-tone">settings</i>
@@ -82,38 +108,6 @@
                     Log Yönetimi
                 </a>
             </li>
-
-{{--            <li class="{{ Route::is("comment.index") || Route::is("comment.create") ? "open" : "" }}">--}}
-{{--                <a href="#">--}}
-{{--                    <i class="material-icons-two-tone">tune</i>--}}
-{{--                    Yorum Yönetimi--}}
-{{--                    <i class="material-icons has-sub-menu">keyboard_arrow_right</i>--}}
-{{--                </a>--}}
-{{--                <ul class="sub-menu" style="">--}}
-{{--                    <li>--}}
-{{--                        <a href="{{ route('comment.create') }}" class="{{ Route::is('comment.create') ? 'active' : '' }}">Yorum Güncelle</a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a href="{{ route('comment.index') }}" class="{{ Route::is('comment.index') ? 'active' : '' }}">Yorum Listesi</a>--}}
-{{--                    </li>--}}
-{{--                </ul>--}}
-{{--            </li>--}}
-{{--            <li class="{{ Route::is("social-media.index") || Route::is("social-media.create") ? "open" : "" }}">--}}
-{{--                <a href="#">--}}
-{{--                    <i class="material-icons-two-tone">tune</i>--}}
-{{--                    Sosyal Medya Yönetimi--}}
-{{--                    <i class="material-icons has-sub-menu">keyboard_arrow_right</i>--}}
-{{--                </a>--}}
-{{--                <ul class="sub-menu" style="">--}}
-{{--                    <li>--}}
-{{--                        <a href="{{ route('social-media.create') }}" class="{{ Route::is('social-media.create') ? 'active' : '' }}">Sosyal Medya Ekle</a>--}}
-{{--                    </li>--}}
-{{--                    <li>--}}
-{{--                        <a href="{{ route('social-media.index') }}" class="{{ Route::is('social-media.index') ? 'active' : '' }}">Sosyal Medya Listesi</a>--}}
-{{--                    </li>--}}
-{{--                </ul>--}}
-{{--            </li>--}}
-
 
         </ul>
     </div>

@@ -24,6 +24,7 @@ class UserRegisteredObserver
      */
     public function created(User $user): void
     {
+
         $token = Str::random(60);
 
         UserVerify::create([
@@ -33,7 +34,6 @@ class UserRegisteredObserver
 
         $user->notify(new VerifyNotification($token));
 
-//        dd($user, 28);
         $this->log('create', $user->id, $user->toArray(), $this->model, true);
     }
 
@@ -42,11 +42,15 @@ class UserRegisteredObserver
      */
     public function updated(User $user): void
     {
-        if ($user->wasChanged('password'));
+        if ($user->wasChanged('password'))
+        {
             $user->notify(new PasswordChangedNotification($user));
+        }
 
         if (!$user->wasChanged('deleted_at'))
+        {
             $this->updateLog($user, $this->model);
+        }
     }
 
     /**

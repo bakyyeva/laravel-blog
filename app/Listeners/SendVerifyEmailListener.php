@@ -26,6 +26,7 @@ class SendVerifyEmailListener
      */
     public function handle(UserRegisteredEvent $event): void
     {
+
         $token = Str::random(60);
 
         UserVerify::create([
