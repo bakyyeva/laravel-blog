@@ -37,4 +37,22 @@ class EmailTheme extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    public function scopeThemeType($q, $theme_type)
+    {
+        if (!is_null($theme_type))
+            return $q->where('theme_type', $theme_type);
+    }
+
+    public function scopeProcess($q, $process)
+    {
+        if (!is_null($process))
+            return $q->where('process', $process);
+    }
+
+    public function scopeSearchText($q, $search_text)
+    {
+        if (!is_null($search_text))
+            return $q->orWhere('body', 'LIKE', '%' . $search_text . '%');
+    }
 }

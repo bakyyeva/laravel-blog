@@ -109,8 +109,11 @@
                 İçerik bulunamamıştır.
             </div>
         @endif
-
         <div class="col-12 d-flex justify-content-center mx-auto mt-5">
+            {{ $articles->links() }}
+        </div>
+
+{{--        <div class="col-12 d-flex justify-content-center mx-auto mt-5">--}}
 {{--            <nav aria-label="Page navigation example">--}}
 {{--                <ul class="pagination justify-content-center">--}}
 {{--                    <li class="page-item disabled">--}}
@@ -124,8 +127,7 @@
 {{--                    </li>--}}
 {{--                </ul>--}}
 {{--            </nav>--}}
-            {{ $articles->links() }}
-        </div>
+{{--        </div>--}}
 
     </section>
 @endsection

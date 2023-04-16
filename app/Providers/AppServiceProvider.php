@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Category;
 use App\Models\Settings;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -24,9 +25,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Paginator::useBootstrapFive();
+        Paginator::defaultView('vendor.pagination.customPagination');
+//        Paginator::useBootstrapFive();
 
-        // *** ÇALIŞMIYOR ***
+        Carbon::setLocale(config("app.locale"));
+
         View::composer(['front.*', 'mail::header', 'email.*', "layouts.admin.*"], function ($view){
             $settings = Settings::first();
             $categories = Category::query()

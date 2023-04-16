@@ -81,7 +81,6 @@ Route::prefix('admin')->middleware(["auth", "verified"])->group(function (){
         Route::delete('email-themes/delete', [EmailController::class, 'delete'])->name('admin.email-themes.delete');
         Route::post('email-themes/change-status', [EmailController::class, 'changeStatus'])->name('admin.email-themes.changeStatus');
 
-
         Route::get('email-themes/assign-list', [EmailController::class, 'assignList'])->name('admin.email-themes.assign-list');
         Route::get('email-themes/assign-list/show-email', [EmailController::class, 'showEmail'])->name('admin.email-themes.assign.show.email');
         Route::delete('email-themes/assign-list/delete', [EmailController::class, 'assignDelete'])->name('admin.email-themes.assign.delete');
@@ -93,7 +92,6 @@ Route::prefix('admin')->middleware(["auth", "verified"])->group(function (){
     Route::post('articles/favorite', [ArticleController::class, 'favorite'])->name('article.favorite');
     Route::post('article/comment-favorite', [ArticleCommentController::class, 'favorite'])->name('article.comment.favorite');
 
-
     Route::get('social-medias', [SocialMediaController::class, 'index'])->name('social-media.index');
     Route::get('social-medias/create', [SocialMediaController::class, 'create'])->name('social-media.create');
     Route::post('social-medias/create', [SocialMediaController::class, 'store']);
@@ -102,8 +100,8 @@ Route::prefix('admin')->middleware(["auth", "verified"])->group(function (){
     Route::post('social-medias/change-status', [SocialMediaController::class, 'changeStatus'])->name('social-media.change-status');
     Route::delete('social-medias/delete', [SocialMediaController::class, 'delete'])->name('social-media.delete');
 
-
 });
+
 Route::get("admin/login", [LoginController::class, "showLogin"])->name("auth.login");
 Route::post("admin/login", [LoginController::class, "login"]);
 
@@ -114,7 +112,6 @@ Route::get('/yazarlar/{user:username}', [FrontController::class, 'authorArticles
 Route::get('/@{user:username}}/{article:slug}', [FrontController::class, 'articleDetail'])->name('front.articleDetail')->middleware('visitedArticle');
 Route::post('{article:id}/makale-yorum', [FrontController::class, 'articleComment'])->name('articleComment');
 Route::get('/arama', [FrontController::class, 'search'])->name('front.search');
-
 
 Route::get("/register", [RegisterController::class, "showRegister"])->name("register");
 Route::post("/register", [RegisterController::class, "register"]);

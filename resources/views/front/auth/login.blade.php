@@ -10,11 +10,7 @@
                     Giriş Yap
                 </x-slot:header>
                 <x-slot:body>
-                    @if($errors->any())
-                        @foreach($errors->all() as $error)
-                            <div class="alert alert-danger">{{ $error }}</div>
-                        @endforeach
-                    @endif
+                    <x-errors.display-error />
                     <form action="{{ route("user.login") }}" method="POST" class="register-form">
                         @csrf
                         <div class="row">
@@ -28,10 +24,9 @@
                                 </small>
                                 <hr class="my-4">
                             </div>
-
                             <div class="col-md-12 social-media-register">
                                 <div class="d-flex justify-content-center">
-                                    <a href="">
+                                    <a href="{{ route('socialLogin', ['driver' => 'google']) }}">
                                         <i class="fa fa-google fa-2x me-3"></i>
                                     </a>
                                     <a href="">
@@ -45,7 +40,6 @@
                                     </a>
                                 </div>
                             </div>
-
                             <div class="col-md-12 mt-4">
                                 <div class="d-flex justify-content-end">
                                     <small>
@@ -53,10 +47,8 @@
                                     </small>
                                 </div>
                                 <hr class="m-0 mb-4">
-
                                 <button class="btn btn-success w-100">Giriş Yap</button>
                             </div>
-
                         </div>
                     </form>
                 </x-slot:body>

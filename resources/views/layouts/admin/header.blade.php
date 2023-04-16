@@ -17,20 +17,22 @@
                         </li>
                     @endif
                     @auth
-                    <li class="nav-item hidden-on-mobile">
-                        <a class="nav-link language-dropdown-toggle text-warning"
-                           href="#" id="languageDropDown" data-bs-toggle="dropdown">
-                            <u>{{ auth()->user()->name }}</u>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end language-dropdown" aria-labelledby="languageDropDown">
-                            <li>
-                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Çıkış Yap</a>
-                                <form action="{{ route("logout") }}" method="POST" id="logout-form">
-                                    @csrf
-                                </form>
+                            <li class="nav-item">
+                                <a class="nav-link language-dropdown-toggle text-warning"
+                                   href="javascript:void(0)"
+                                   id="languageDropDown"
+                                   data-bs-toggle="dropdown">
+                                    <u>{{ auth()->user()->name }}</u>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end language-dropdown" aria-labelledby="languageDropDown">
+                                    <li>
+                                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Çıkış Yap</a>
+                                        <form action="{{ route("logout") }}" method="POST" id="logout-form">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                </ul>
                             </li>
-                        </ul>
-                    </li>
                     @endauth
                         <li class="nav-item hidden-on-mobile">
                             <a class="nav-link nav-notifications-toggle" id="notificationsDropDown" href="#" data-bs-toggle="dropdown">

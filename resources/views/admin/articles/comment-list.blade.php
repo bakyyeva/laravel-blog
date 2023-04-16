@@ -183,7 +183,7 @@
     <script src="{{ asset("assets/js/pages/select2.js") }}"></script>
     <script src="{{ asset("assets/plugins/flatpickr/flatpickr.js") }}"></script>
 {{--    <script src="{{ asset("assets/js/pages/datepickers.js") }}"></script>--}}
-    <script src="{{ asset("assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
+{{--    <script src="{{ asset("assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>--}}
     <script src="{{ asset("assets/admin/plugins/bootstrap/js/popper.min.js") }}"></script>
     <script>
         $(document).ready(function () {

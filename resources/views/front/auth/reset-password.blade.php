@@ -30,7 +30,6 @@
                                 <hr class="m-0 mb-4">
                                 <button class="btn btn-success w-100">Parolamı Sıfırla</button>
                             </div>
-
                         </div>
                     </form>
                 </x-slot:body>

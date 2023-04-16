@@ -37,7 +37,7 @@ $(document).ready(function () {
 
     $('#languageDropDown').click(function () {
         $(this).addClass("show");
-    }) ;
+    });
 
         $('#btnClearFilter').click(function () {
             let filterInput = $('#formFilter input');

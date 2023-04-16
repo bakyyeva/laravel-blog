@@ -10,10 +10,13 @@ use Illuminate\Http\Request;
 class EmailController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $list = EmailTheme::query()
             ->with('user')
+            ->themeType($request->theme_type)
+            ->process($request->process)
+            ->searchText($request->search_text)
             ->paginate(5);
 
         return view('admin.email.list', compact('list'));
