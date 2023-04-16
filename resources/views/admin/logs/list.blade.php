@@ -131,7 +131,6 @@
 @section('js')
     <script src="{{ asset("assets/plugins/select2/js/select2.full.min.js") }}"></script>
     <script src="{{ asset("assets/js/pages/select2.js") }}"></script>
-{{--    <script src="{{ asset("assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>--}}
 
     <script>
         $(document).ready(function () {
@@ -147,7 +146,7 @@
                    url: route,
                    async: false,
                    success: function (data) {
-                       console.log(data);
+                       // console.log(data);
                        $('#modalBody').html(data)
                    },
                    error: function (){
@@ -184,13 +183,6 @@
             $('#actions').select2();
         });
     </script>
-
-{{--    <script>--}}
-{{--         const popover = new bootstrap.Popover('.example-popover', {--}}
-{{--             container: 'body'--}}
-{{--         })--}}
-{{--    </script>--}}
-
 @endsection
 
 @push("javascript")

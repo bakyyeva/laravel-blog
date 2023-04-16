@@ -61,9 +61,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
         <section class="col-12 mt-4">
             <div class="article-items d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
@@ -80,9 +78,7 @@
                     <span class="fw-light" id="favoriteCount">{{ $article->like_count }}</span>
                 </div>
                 <a href="javascript:void(0)" class="btn-response btnArticleResponse">Yorum Yap</a>
-
             </div>
-
             <div class="article-authors mt-5">
                 <div class="bg-white p-4 d-flex justify-content-between align-items-center shadow-sm">
                     <a href="{{ route('front.authorArticles', ['user' => $article->user->username])  }}">
@@ -97,7 +93,6 @@
                     </div>
                 </div>
             </div>
-
             @if(isset($suggestArticles) && count($suggestArticles))
             <div class="mt-5">
                 <div class="swiper-suggest-article mt-3">
@@ -110,7 +105,6 @@
                                 ]) }}">
                                     <img src="{{ imageExist($suggestArticle->image, $settings->article_default_image) }}" class="img-fluid">
                                 </a>
-
                                 <div class="most-popular-body mt-2">
                                     <div class="most-popular-author d-flex justify-content-between">
                                         <div>
@@ -145,9 +139,7 @@
                 </div>
             </div>
             @endif
-
         </section>
-
         <section class="article-responses mt-4">
             <div class="response-form bg-white shadow-sm rounded-1 p-4 d-none" id="newComment">
                 <form action="{{ route('articleComment', ['article' => $article->id]) }}" method="POST">
@@ -158,7 +150,6 @@
                             <h5>Yorumunuz</h5>
                             <hr>
                         </div>
-
                         <div class="col-md-6">
                             <input type="text" class="form-control" placeholder="Adınız" name="name" required>
                         </div>
@@ -177,7 +168,6 @@
                     </div>
                 </form>
             </div>
-
             <div class="response-body p-4">
                 <h3>Yorumlar</h3>
                 <hr class="mb-4">
@@ -186,7 +176,6 @@
                         Henüz yorum yapılmamıştır.
                     </div>
                 @endif
-
                 @foreach($article->comments as $comment)
                     <div class="article-response-wrapper">
                         <div class="article-response bg-white p-2 mt-3 d-flex justify-content-between align-items-center shadow-sm">
@@ -287,8 +276,6 @@
                                 @endforeach
                             </div>
                         @endif
-
-
                     </div>
                 @endforeach
             </div>
@@ -335,8 +322,6 @@
                         icon: "info"
                     });
                 @endif
-
-
             });
 
             $('.like-comment').click(function () {
@@ -376,7 +361,6 @@
                     });
                 @endif
             });
-
 
             $('.btnArticleResponse').click(function ()
             {

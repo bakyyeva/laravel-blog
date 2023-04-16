@@ -17,12 +17,7 @@
             <p class="auth-description">Please sign-in to your account and continue to the dashboard.<br>Don't have an
                 account? <a href="sign-up.html">Sign Up</a></p>
 
-            @if($errors->any())
-                @foreach($errors->all() as $error)
-                    <div class="alert alert-danger">{{ $error }}</div>
-                @endforeach
-            @endif
-
+           <x-errors.display-error />
             <form action="" method="POST">
                 @csrf
                 <div class="auth-credentials m-b-xxl">
@@ -72,13 +67,11 @@
                 var regex= /([a-zA-Z0-9_.+-])+@(([a-zA-Z0-9-])+\.)+([a-z]{2,4})+$/;
                 return regex.test(email);
             }
-
             /*function passwordControl(password) {
                 var regex= /([a-zA-Z0-9])+$/;
                 return regex.test(password);
 
             }*/
-
 
             $("#btnLogin").click(function () {
                 var email=$("#email");
@@ -91,7 +84,6 @@
                     $(".inputDiv").append(p);
                     p.setAttribute("id", 'hataMsj');
                     email.addClass("border-danger");
-
                 }
                 else if (emailControl(email.val().trim()) == false)
                 {

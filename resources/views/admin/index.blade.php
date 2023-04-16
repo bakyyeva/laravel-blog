@@ -16,7 +16,7 @@
 
 <x-bootstrap.card>
     <x-slot:header>
-        <h2>Makale Listesi</h2>
+        <h2>Makale ve Kullanıcı İstatistikleri.</h2>
     </x-slot:header>
 
     <x-slot:body>

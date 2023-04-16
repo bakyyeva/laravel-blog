@@ -121,9 +121,9 @@
             });
             $('.btnDelete').click(function () {
                 let id = $(this).data('id');
-                let categoryName = $(this).data('name');
+                let themeName = $(this).data('name');
                 Swal.fire({
-                    title: categoryName + ' i Silmek istediğinize emin misiniz?',
+                    title: themeName + ' i Silmek istediğinize emin misiniz?',
                     showDenyButton: true,
                     showCancelButton: true,
                     confirmButtonText: 'Evet',
@@ -171,7 +171,6 @@
                 if (themeType== 1)
                 {
                     $('#jsonData').html(content.replace('"', '').replace('"', ''));
-                    console.log(content);
                 }
                 else
                 {

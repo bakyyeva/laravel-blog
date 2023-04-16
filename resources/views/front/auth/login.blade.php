@@ -11,7 +11,7 @@
                 </x-slot:header>
                 <x-slot:body>
                     <x-errors.display-error />
-                    <form action="{{ route("user.login") }}" method="POST" class="register-form">
+                    <form action="{{ route("user.login") }}" method="POST" class="register-form" id="loginForm">
                         @csrf
                         <div class="row">
                             <div class="col-md-12 mt-2">
@@ -47,7 +47,7 @@
                                     </small>
                                 </div>
                                 <hr class="m-0 mb-4">
-                                <button class="btn btn-success w-100">Giriş Yap</button>
+                                <button type="button" class="btn btn-success w-100" id="btnLogin">Giriş Yap</button>
                             </div>
                         </div>
                     </form>
@@ -58,5 +58,36 @@
 @endsection
 
 @section("js")
+    <script>
+        let email = $('#email');
+        let password = $('#password');
+
+        $(document).ready(function () {
+           $('#btnLogin').click(function () {
+               if(email.val().trim() === '' || email.val().trim() == null)
+               {
+                   Swal.fire({
+                       title: "Uyarı",
+                       text: "Email alanı boş geçilemez",
+                       confirmButtonText: 'Tamam',
+                       icon: "info",
+                   });
+               }
+               else if(password.val().trim() === '' || password.val().trim() == null)
+               {
+                   Swal.fire({
+                       title: "Uyarı",
+                       text: "Şifre alanı boş geçilemez",
+                       confirmButtonText: 'Tamam',
+                       icon: "info",
+                   });
+               }
+               else {
+                   $('#loginForm').submit();
+               }
+           });
+
+        });
+    </script>
 @endsection
 

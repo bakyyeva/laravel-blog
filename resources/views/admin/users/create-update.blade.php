@@ -16,11 +16,7 @@
         <x-slot:body>
             <div class="example-container">
                 <div class="example-content">
-                    @if($errors->any())
-                        @foreach($errors->all() as $error)
-                            <div class="alert alert-danger">{{ $error }}</div>
-                        @endforeach
-                    @endif
+                    <x-errors.display-error />
                     <form action="{{ isset($user) ? route('user.edit', ['user' => $user->username]) : route('user.create') }}"
                           method="POST"
                           enctype="multipart/form-data"
@@ -80,7 +76,7 @@
                                         {{ isset($user->image) && $user->image=="/assets/images/user-images/profile2.png" ? 'selected' : (old('image') == "/assets/images/user-images/profile2.png" ? 'selected' : '') }}>
                                         Profile 2
                                     </option>
-                                    <option value="/assets/images/user-images/profile2.png"
+                                    <option value="/assets/images/user-images/default.png"
                                         {{ isset($user->image) && $user->image=="/assets/images/user-images/default.png" ? 'selected' : (old('image') == "/assets/images/user-images/default.png" ? 'selected' : '') }}>
                                         Profile 3
                                     </option>
@@ -164,7 +160,6 @@
             $('#image').change(function () {
                $('#profileImage').attr("src", $(this).val());
             });
-
 
         });
     </script>

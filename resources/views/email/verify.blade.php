@@ -8,5 +8,5 @@
 </p>
 
 <a href="{{ route('verify.token', ['token' => $token]) }}">
-    Mailimi doğrulama
+    Mailimi doğrula
 </a>

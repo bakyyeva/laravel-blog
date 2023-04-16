@@ -123,12 +123,11 @@ class UserController extends Controller
         $user->is_admin = !$user->is_admin;
         $user->save();
 
-        $statusText = ($oldIsAdmin == 1 ? 'Aktif' : 'Pasif') . "'ten" . ($user->is_admin == 1 ? ' Aktif' : ' Pasif');
+        $statusText = ($oldIsAdmin == 1 ? 'Adminden' : 'Userden') . "'ten" . ($user->is_admin == 1 ? ' Admin' : ' User');
         alert()->success('Başarılı', $user->name . ' is Admin ' . $statusText . ' olarak güncellendi')->showConfirmButton('Tamam', '#3085d6')->autoClose(5000);
 
         return redirect()->back();
     }
-
 
 
 

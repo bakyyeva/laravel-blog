@@ -208,6 +208,7 @@
                     }
                 })
             });
+
             $('.btnDelete').click(function () {
                 let id = $(this).data('id');
                 let themeName = $(this).data('name');
@@ -254,13 +255,13 @@
                     }
                 })
             });
+
             $('.btnModelThemeDetail').click(function () {
                 let content = $(this).data("content");
                 let themeType = $(this).data("theme-type");
                 if (themeType== 1)
                 {
                     $('#jsonData').html(content.replace('"', '').replace('"', ''));
-                    console.log(content);
                 }
                 else
                 {

@@ -82,7 +82,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="content mt-5">
                     <div class="custom-content {{ $theme && $custom ? "" : "d-none" }}">
                         <div class="row">
@@ -94,11 +93,9 @@
                                     {link}, {username}, {useremail}
                                 </p>
                             </div>
-
                             <div class="col-12 mt-5">
                                 <textarea class="form-control" name="custom_content" id="custom_content" cols="30" rows="5">{!! $theme && $theme_type == 1 ? $body : "" !!}</textarea>
                             </div>
-
                         </div>
                     </div>
                     <div class="password-reset-mail {{ $theme && !$custom ? "" : "d-none" }}">
@@ -107,7 +104,6 @@
                                 <h5>Parola Sıfırlama Maili Alanlarını Doldurabilirsiniz.</h5>
                                 <hr>
                             </div>
-
                             <div class="col-6 mt-4">
                                 <a href="javascript:void(0)" class="btn btn-warning btn-sm w-100" id="btnAddLogoImage" data-input="logo" data-preview="imgLogo">
                                     Logo Görseli
@@ -117,14 +113,12 @@
                             <div class="col-6 mt-4" id="imgLogo">
                                 <img src="{{ $theme ? $logo : ""  }}" alt="" height="50" id="imgLogo2">
                             </div>
-
                             <div class="col-6 mt-4">
                                 <input type="text" name="passwordResetMail[logo_alt]" id="logo_alt" class="form-control" placeholder="Logo Alt Attribute" value="{{ $theme ? $logo_alt : "" }}">
                             </div>
                             <div class="col-6 mt-4">
                                 <input type="text" name="passwordResetMail[logo_title]" id="logo_title" class="form-control" placeholder="Logo Title Attribute" value="{{ $theme ? $logo_title : "" }}">
                             </div>
-
                             <div class="col-6 mt-4">
                                 <a href="javascript:void(0)" class="btn btn-warning btn-sm w-100"
                                    id="btnAddResetPasswordImage"
@@ -138,28 +132,22 @@
                             <div class="col-6 mt-4" id="resetPassword">
                                 <img src="{{ $theme ? $reset_password_image : "" }}" height="50" alt="" id="passwordResetMail[imgResetPassword]">
                             </div>
-
                             <div class="col-6 mt-4">
                                 <input type="text" name="passwordResetMail[reset_password_image_alt]" id="reset_password_image_alt" class="form-control" placeholder="Reset Password Alt Attribute" value="{{ $theme ? $reset_password_image_alt : "" }}">
                             </div>
                             <div class="col-6 mt-4">
                                 <input type="text" name="passwordResetMail[reset_password_image_title]" id="reset_password_image_title" class="form-control" placeholder="Reset Password Title Attribute" value="{{ $theme ? $reset_password_image_title : "" }}">
                             </div>
-
                             <div class="col-6 mt-4">
                                 <input type="text" name="passwordResetMail[title]" id="title" class="form-control" placeholder="Başlık" value="{{ $theme ? $title : "" }}">
                             </div>
                             <div class="col-6 mt-4">
                                 <input type="text" name="passwordResetMail[description]" id="description" class="form-control" placeholder="Açıklama" value="{{ $theme ? $description : "" }}">
                             </div>
-
                             <div class="col-6 mt-4">
                                 <input type="text" name="passwordResetMail[button_text]" id="button_text" class="form-control" placeholder="Parolamı Sıfırla Butonunda Ne Yazsın?" value="{{ $theme ? $button_text : "" }}">
                             </div>
-
-
                         </div>
-                        Parola Sıfırlama Maili
                     </div>
                     <div class="row">
                         <div class="col-4 mt-4 theme-status {{ $theme ? "" : "d-none" }}">

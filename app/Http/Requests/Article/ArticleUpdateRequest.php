@@ -26,7 +26,7 @@ class ArticleUpdateRequest extends FormRequest
             "slug" => ["max:255", "unique:articles,slug," . $this->id],
             "body" => ["required"],
             "category_id" => ["required"],
-            "image" => ['image', 'mimetypes:image/jpeg,image/jpg,image/png', "max:2048", 'nullable']
+            "image" => ["max:2048", 'nullable']
         ];
     }
 }

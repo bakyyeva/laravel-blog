@@ -24,11 +24,7 @@
                         @csrf
                         <label for="title" class="form-label">Makale Başlığı</label>
                         <input type="text"
-                               class="form-control form-control-solid-bordered m-b-sm
-                               @if($errors->has("title"))
-                                    border-danger
-                               @endif
-                               "
+                               class="form-control form-control-solid-bordered m-b-sm"
                                aria-describedby="solidBoderedInputExample"
                                placeholder="Makale Başlığı"
                                name="title"
@@ -36,10 +32,6 @@
                                value="{{ isset($article) ? $article->title : "" }}"
                                required
                         >
-                        @if($errors->has("title"))
-                            {{ $errors->first("title") }}
-                            <br>
-                        @endif
                         <label for="slug" class="form-label">Makale Slug</label>
                         <input type="text"
                                class="form-control form-control-solid-bordered m-b-sm"
@@ -51,10 +43,7 @@
                         >
                         <label for="summernote" class="form-label">İçerik</label>
                         <textarea name="body" id="summernote" class="m-b-sm">{!! isset($article) ? $article->body : "" !!}</textarea>
-                        @if($errors->has("body"))
-                           {{ $errors->first("body") }}
-                           <br>
-                        @endif
+
                         <label for="tags" class="form-label">Etiketler</label>
                         <input type="text"
                                class="form-control form-control-solid-bordered m-b-sm"
@@ -92,13 +81,13 @@
                                value="{{ isset($article) ? $article->read_time : "" }}"
                         >
                         <label for="publish_date" class="form-label">Makale Yayınlanma Tarihi</label>
-                        <input type="date"
+                        <input type="text"
                                class="form-control form-control-solid-bordered m-b-sm"
                                aria-describedby="solidBoderedInputExample"
                                placeholder="Yayınlanma tarihi"
                                name="publish_date"
                                id="publish_date"
-                               value="{{ isset($article) ? $article->publish_date : "" }}"
+                               value="{{  isset($article) ? $article->publish_date : "" }}"
                         >
                         <label for="seo_keywords" class="form-label">Makale Seo Keywords</label>
                         <textarea
@@ -120,11 +109,7 @@
                             style="resize: none">{{ isset($article) ? $article->soe_description : "" }}</textarea>
                         <label for="category_id" class="form-label">Kategori Seçimi</label>
                         <select
-                            class="form-select form-control form-control-solid-bordered m-b-sm
-                                 @if($errors->has("category_id"))
-                                    border-danger
-                                  @endif
-                                  "
+                            class="form-select form-control form-control-solid-bordered m-b-sm"
                             aria-label="Kategori Seçimi"
                             name="category_id"
                             id="category_id"
@@ -137,10 +122,6 @@
                                 </option>
                             @endforeach
                         </select>
-                        @if($errors->has("category_id"))
-                            {{ $errors->first("category_id") }}
-                            <br>
-                        @endif
                         <div class="form-check">
                             <input type="checkbox"  class="form-check-input" name="status" value="1" id="status"
                                 {{ isset($article) && $article->status ? 'checked' :  "" }}>
@@ -148,35 +129,20 @@
                                 Makale Sitede Görünsün mü?
                             </label>
                         </div>
-{{--                        <label for="image" class="form-label m-t-sm">Makale Görseli</label>--}}
-{{--                        <input type="file" name="image" id="image" accept="image/png, image/jpeg, image/jpg" class="form-control--}}
-{{--                               @if($errors->has("image"))--}}
-{{--                                   border-danger--}}
-{{--                               @endif--}}
-{{--                               "--}}
-{{--                        >--}}
-{{--                        @if($errors->has("image"))--}}
-{{--                            {{ $errors->first("image") }}--}}
-{{--                            <br>--}}
-{{--                        @endif--}}
-{{--                        <div class="form-text m-b-sm">Makale Görseli Maksimum 2mb olmalıdır</div>--}}
-{{--                        @if(isset($article) && $article->image)--}}
-{{--                            <img src="{{ asset($article->image) }}" alt="" class="img-fluid" style="max-height: 100px">--}}
-{{--                        @endif--}}
-                        <label for="image" class="form-label m-t-sm">Makale Görseli</label>
-                        <div class="input-group">
-                           <span class="input-group-btn">
-                             <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-                               <i class="fa fa-picture-o"></i> Choose File
-                             </a>
-                           </span>
-                            <input id="thumbnail" class="form-control ms-1" type="text" name="image">
+                        <div class="row">
+                            <label for="image" class="form-label m-t-sm">Makale Görseli</label>
+                            <div class="col-6">
+                                <a href="javascript:void(0)" id="articleImage" data-input="article-image" data-preview="articleImg" class="btn btn-primary w-100">
+                                    Makale Görseli
+                                </a>
+                                <input type="hidden" name="image" id="article-image" value="{{ isset($article) ? $article->image : '' }}">
+                            </div>
+                            @if(isset($article) && $article->image)
+                            <div class="col-6" id="articleImg">
+                                <img src="{{ $article->image }}" height="100">
+                            </div>
+                            @endif
                         </div>
-                        <img id="holder" style="margin-top:15px;max-height:100px;">
-{{--                        !empty($article->image)--}}
-                        @if(isset($article) && $article->image)
-                            <img src="{{asset($article->image)}}" class="img-fluid" style="max-height: 100px">
-                        @endif
                         <hr>
                         <div class="col-6 mx-auto mt-2">
                             <button type="button" class="btn btn-success btn-rounded w-100" id="btnSave">
@@ -198,7 +164,7 @@
     <script src="{{ asset("/vendor/laravel-filemanager/js/stand-alone-button.js") }}"></script>
     <script>
 
-        $('#lfm').filemanager('image');
+        $('#articleImage').filemanager();
 
         let title = $('#title');
         let tags = $('#tags');
@@ -238,7 +204,6 @@
                     $('#articleForm').submit();
                 }
             });
-
 
         });
     </script>

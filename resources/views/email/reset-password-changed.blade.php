@@ -1,5 +1,5 @@
 <p>
-    Sayın {{ $user->name }} parolanız sıfırlanmıştır
+    Sayın {{ $user->name }} parolanız sıfırlanmıştır.
 </p>
 
 <p>

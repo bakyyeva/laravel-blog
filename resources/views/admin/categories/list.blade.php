@@ -21,11 +21,7 @@
             <h5 class="card-title">Kategory Listesi </h5>
         </x-slot:header>
         <x-slot:body>
-            @if($errors->any())
-                @foreach($errors->all() as $error)
-                    <div class="alert alert-danger">{{ $error }}</div>
-                @endforeach
-            @endif
+            <x-errors.display-error />
             <form action="" method="GET" id="formFilter">
                 <div class="row">
                     <div class="col-3 my-2">
@@ -160,7 +156,6 @@
         $(document).ready(function(){
             $('.btnChangeStatus').click(function () {
                 let categoryID = $(this).data('id');
-                // console.log(categoryID);
                 $('#inputStatus').val(categoryID);
 
                 Swal.fire({

@@ -71,7 +71,6 @@
                                 ]) }}">
                                 <img src="{{ imageExist($article->image, $settings->article_default_image) }}" class="img-fluid">
                             </a>
-
                             <div class="most-popular-body mt-2">
                                 <div class="most-popular-author d-flex justify-content-between">
                                     <div>
@@ -105,7 +104,6 @@
                 </div>
             </div>
         </div>
-
     </section>
 
     <section class="telegram d-flex align-items-center mt-5 p-4 rounded-2 text-white">
@@ -117,14 +115,12 @@
             <p class="">Laravel başta olmak üzere bir çok teknoloji ile ilgili 100+ kişi ile iletişime geçebilirsin.</p>
             <a href="{{ isset($settings) ? $settings->telegram_link : "javascript:void(0)" }}" target="_blank" class="btn btn-warning p-3 text-black">Telegrama Katıl</a>
         </div>
-
     </section>
 
     <section class="articles row mt-5"
              data-aos="flip-left"
              data-aos-duration="2000"
              data-aos-easing="ease-out-cubic">
-
         <div class="popular-title col-md-12">
             <h2 class="font-montserrat fw-semibold">Son Makaleler</h2>
         </div>

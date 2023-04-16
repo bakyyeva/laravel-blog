@@ -142,7 +142,6 @@ class ArticleController extends Controller
 
     public function edit(Request $request, int $articleID)
     {
-//        dd($articleID);
         $categories = Category::all();
 
         $article = Article::query()->where('id', $articleID)->first();

@@ -24,11 +24,7 @@
             <h5 class="card-title">Kullanıcı Listesi </h5>
         </x-slot:header>
         <x-slot:body>
-            @if($errors->any())
-                @foreach($errors->all() as $error)
-                    <div class="alert alert-danger">{{ $error }}</div>
-                @endforeach
-            @endif
+            <x-errors.display-error />
             <form action="" method="GET" id="formFilter">
                 <div class="row">
                     <div class="col-3 my-2">

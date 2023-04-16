@@ -20,11 +20,7 @@
             <h2>Makale Listesi</h2>
         </x-slot:header>
         <x-slot:body>
-            @if($errors->any())
-                @foreach($errors->all() as $error)
-                    <div class="alert alert-danger">{{ $error }}</div>
-                @endforeach
-            @endif
+            <x-errors.display-error />
             <form action="" method="GET" id="formFilter">
                 <div class="row">
                     <div class="col-6 my-2">
@@ -165,7 +161,6 @@
     <script src="{{ asset("assets/js/pages/select2.js") }}"></script>
     <script src="{{ asset("assets/plugins/flatpickr/flatpickr.js") }}"></script>
     <script src="{{ asset("assets/js/pages/datepickers.js") }}"></script>
-{{--    <script src="{{ asset("assets/admin/plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>--}}
     <script src="{{ asset("assets/admin/plugins/bootstrap/js/popper.min.js") }}"></script>
     <script>
         $(document).ready(function () {

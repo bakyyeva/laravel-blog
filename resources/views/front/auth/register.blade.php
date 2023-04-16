@@ -11,7 +11,7 @@
                 </x-slot:header>
                 <x-slot:body>
                     <x-errors.display-error />
-                    <form action="{{ route("register") }}" method="POST" class="register-form">
+                    <form action="{{ route("register") }}" method="POST" class="register-form" id="registerForm">
                         @csrf
                         <div class="row">
                             <div class="col-md-12 mt-2">
@@ -53,7 +53,7 @@
                                     </small>
                                 </div>
                                 <hr class="m-0 mb-4">
-                                <button class="btn btn-success w-100">KAYIT OL</button>
+                                <button type="button" class="btn btn-success w-100" id="btnSave">KAYIT OL</button>
                             </div>
                         </div>
                     </form>
@@ -64,5 +64,48 @@
 @endsection
 
 @section("js")
+    <script>
+
+        let username = $('#username');
+        let name = $('#name');
+        let email = $('#email');
+
+        $(document).ready(function () {
+
+            $('#btnSave').click(function () {
+                if(username.val().trim() === '' || username.val().trim() == null )
+                {
+                    Swal.fire({
+                        title: "Uyarı",
+                        text: "Kullanıcı Adı boş geçilemez.",
+                        confirmButtonText: 'Tamam',
+                        icon: "info",
+                    });
+                }
+                else if(name.val().trim() === '' || name.val().trim() == null)
+                {
+                    Swal.fire({
+                        title: "Uyarı",
+                        text: "Kullanıcı Adı Soydı boş geçilemez",
+                        confirmButtonText: 'Tamam',
+                        icon: "info",
+                    });
+                }
+                else if(email.val().trim() === '' || email.val().trim() == null)
+                {
+                    Swal.fire({
+                        title: "Uyarı",
+                        text: "Kullanıcı email boş geçilemez",
+                        confirmButtonText: 'Tamam',
+                        icon: "info",
+                    });
+                }
+                else {
+                    $('#registerForm').submit();
+                }
+            });
+
+        });
+    </script>
 @endsection
 
